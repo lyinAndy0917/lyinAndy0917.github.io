@@ -1,5 +1,5 @@
 # Change baseurl before deploy
-baseurl = "http://localhost:1313"
+baseurl = "https://lyinandy0917.github.io"
 languageCode = "en-us"
 title = "ANDY尹樑"
 
