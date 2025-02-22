@@ -31,7 +31,51 @@ $R$: control cost matrix$
 $Q_f$: terminal state cost matrix   
 $u_k$: control at time k  
 $x_k$: state at time k  
-$x_g$: desired goal     
+$x_g$: desired goal
+
+### Code Example
+```python
+import numpy as np
+from scipy from signal, linalg
+# 1.39 1.55 20000 25854 1888.6 9.81 0.01
+# Parameters for system dynamics
+lr = 1.39
+lf = 1.55
+Ca = 20000
+Iz = 25854
+m = 1888.6
+g = 9.81
+dt = 0.01
+
+# System dynamics
+A = np.array([[0, 1, 0, 0],
+              [0, -(2*Ca)/(m*lr), (2*Ca)/m, 0],
+              [0, 0, 0, 1],
+              [0, -(2*Ca*lf - 2*Ca*lr)/(Iz*lf), (2*Ca*lf - 2*Ca*lr)/(Iz*lf), 0]])
+B = np.array([[0], [2*Ca/m], [0], [2*Ca*lf/Iz]])
+C = np.eye(4)
+D = np.zeros((4,1))
+
+# generate Q and R according to the size of A and B
+Q = np.eye(4)
+R = np.eye(1)
+
+# Discretize the system dynamics
+system_cont = signal.StateSpace(A, B, C, D)
+system_disc = system_cont.to_discrete(dt)
+Ad, Bd = system_disc.A, system_disc.B
+
+
+#solve for the P that optimizes the cost function using the discrete algebraic Riccati equation
+P = linalg.solve_discrete_are(Ad, Bd, Q, R)
+K = linalg.inv(R + Bd.T @ P @ Bd) @ Bd.T @ P @ Ad
+
+e1 = x - x_g
+# x = [x, x_dot, y, y_dot] just for example
+u = -K @ e1
+```
+All the code above is just to find the optimal control $u$ that minimizes the cost function $J$.
+The detail implementation of the Riccati equation would be shown below.
 
 
 
