@@ -41,6 +41,7 @@ class Node(object):
 
 2. Now we could start to craft the A* class.
 ```python
+class AStar(object):
     def __init__(self, map_path):
         self.map_path = map_path
         self.map = self.load_map(self.map_path).astype(int)
@@ -60,6 +61,9 @@ The `load_map` function is used to load the map from the file. The `reset_map` f
 
 3. Now we would define the important parts of the euclidean distance and the cost of the path.
 ```python
+class AStar(object):
+    '''
+    '''
     def euclidean_distance(self, start, end):
         return np.linalg.norm(start.pose - end.pose) # this is euclidean distance therefore it's the straight line distance
 
@@ -83,6 +87,9 @@ The `load_map` function is used to load the map from the file. The `reset_map` f
 ```
 4. Now we would define the calculate the path function.
 ```python
+class AStar(object):
+    '''
+    '''
     def calculate_path(self, node):
         """
         :param node: A Node data structure
@@ -103,6 +110,9 @@ It would return the path in the form of a list of nodes.
 
 5. We would define the plan function.
 ```python
+class AStar(object):
+    '''
+    '''
    def plan(self, start_ind, goal_ind):
         """
         TODO:
