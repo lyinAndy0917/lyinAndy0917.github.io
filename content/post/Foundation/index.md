@@ -1,6 +1,8 @@
 ---
 title: Foundation
 description: An introduction to the foundation of control theory.
+categories:
+    - Control
 ---
 
 ## Controllability

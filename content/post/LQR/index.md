@@ -2,6 +2,8 @@
 title: "LQR Control"
 description: "An introduction to LQR control theory."
 slug: "Control/LQR"
+categories:
+    - Control
 ---
 
 It's a state feedback just like pole placement, but it's optimal. It's optimal because it minimizes a cost function. 
