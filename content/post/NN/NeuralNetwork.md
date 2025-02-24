@@ -22,8 +22,12 @@ At the heart of neural network is the **perceptron.** A neural network is essent
 
 With a proper size of neural network, we can approximate any function.
 
+In general, what happens in the hiddent neurons is not interpretable and the only thing we know is that they are trying minimize the error.
+
 **Example:**  
 we have 3 features $x_1,x_2,x_3$ and we want to predict $y$, there for 3 weights $w_1,w_2,w_3$ and a bias $b$. Then we would have a activation function. 
+
+
 
 XOR problem:
 - $x_1,x_2$ are the inputs
@@ -36,10 +40,50 @@ XOR problem:
 - It performs a dot product of the weights and the inputs, adds the bias, and then applies an activation function (such as a sigmoid function) to the result.
 $$ y = f(a) = f(W \cdot X)$$
 
+$$ a_{1,1} = \sum_{i=1}^{n} w_{1,i}x_{0,i}$$
+It's simply a dot product of the weights and the inputs.
 
 
+## Forward Propagation
+**Process:**
+$$
+\begin{align}
+   \vec{a_1} &= \vec{W_1} \cdot \vec{x_0} \\
+   \vec{x_1} &= f(\vec{a_1}) \\
+   \vec{a_2} &= \vec{W_2} \cdot \vec{x_1} \\
+   \vec{x_2} &= f(\vec{a_2}) = f(\vec{W_2} \cdot \vec{x_1}) \\
+    \vec{y} &= f(\vec{W_3} \cdot \vec{x_2}) \\
+\end{align}
+$$
+where $f$ is the activation function.
+The chaining of perceptrons is constructed by this chainning effect.
 
+At the end, you would manually calculate the error and adjust the weights and biases so that the result best matches the ground truth.
 
 ## Backpropagation
 The key idea of neural network is to minimize a loss function through backpropagation.
 
+## Softmax
+For a classification problem, we would use the softmax function to convert the output to a probability distribution.
+$$ \text{softmax}(x_i) = \frac{e^{x_i}}{\sum_{j=1}^{n} e^{x_j}}$$
+
+## Define a neural network in PyTorch
+```python
+import torch
+import torch.nn as nn
+class MLP(nn.Module):
+    def __init__(self):
+        super(MLP, self).__init__()
+        self.layers = nn.Sequential(
+            nn.Linear(3, 4),
+            nn.ReLU(),
+            nn.Linear(4, 2),
+            nn.ReLU(),
+            nn.Linear(2, 1)
+        )
+    def forward(self, x):
+        return self.layers(x)
+
+model = MLP()
+```
+Even though in the code the bias code is not presented explicitly, it is still there by default (taken into account).
