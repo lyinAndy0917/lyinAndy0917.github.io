@@ -85,7 +85,12 @@ class AStar(object):
         
         return successor_list
 ```
-4. Now we would define the calculate the path function.
+4. Now we would define the calculate the path function. 
+   Before that, there are two useful functions: `heappush` and `heappop`.
+    - `heappush` is used to push the node into the heap.
+    - `heappop` is used to pop the node with the lowest f value from the heap.
+    - The heap is a data structure that allows you to push and pop the node with the lowest f value in O(1) time.
+    - 
 ```python
 class AStar(object):
     '''
@@ -108,7 +113,7 @@ class AStar(object):
 ```
 It would return the path in the form of a list of nodes.
 
-5. We would define the plan function.
+1. We would define the plan function.
 ```python
 class AStar(object):
     '''
@@ -132,14 +137,14 @@ class AStar(object):
         (2) f = g + h
         """
         # Calculate initial h and f values for start_node
-        start_node.h_value = self.heuristic(start_node, goal_node)
+        start_node.h_value = self.heuristic(start_node, goal_node) # from start to goal
         start_node.f_value = start_node.g_value + start_node.h_value
 
         # Reset map and initialize open and closed lists
         self.reset_map()
         open_list = []
         closed_list = []
-        heappush(open_list, start_node)
+        heappush(open_list, start_node) #why do we need to push the start node into the open list? Because we need to start from the start node. but isn't open list for unvisited nodes? Yes, but we need to start from the start node.
 
         # Reset map
         self.reset_map()
@@ -147,7 +152,7 @@ class AStar(object):
         # Initially, only the start node is known.
         # This is usually implemented as a min-heap or priority queue rather than a hash-set.
         # Please refer to https://docs.python.org/3/library/heapq.html for more details about heap data structure
-        open_list = []
+        open_list = [] # open list is a list of nodes that are not yet visited
         closed_list = np.array([])
         heappush(open_list, start_node)
 
