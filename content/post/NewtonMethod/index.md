@@ -38,9 +38,6 @@ $$ \phi(z_k + \alpha \Delta z) < \phi(z_k)$$
 Where $\phi$ is a "merit function", or `merit_fx(z)` in the code. 
 
 
-NOTE: YOU DO NOT NEED TO (AND SHOULD NOT) USE A WHILE LOOP ANYWHERE IN THIS ASSIGNMENT. 
-
-
 
 
 

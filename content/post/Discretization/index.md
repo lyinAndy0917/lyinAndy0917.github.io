@@ -97,7 +97,7 @@ end
 3. At each iteration, it would check the residual of the implicit integrator. If the residual is below the tolerance, it would return the next state `x2`. And this is the solution of that particular time step.
 
 4. Quick Recap on Newton's Method:
-    - Newton's method is an iterative method to find the root of a function. It uses the tangent line to approximate the root of the function. The tangent line is the derivative of the function.
+    - Newton's method is an iterative method to find the root of a function. It uses the tangent line to approximate the direction of the convergence and eventually find the root.
     - The formula is $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$
     - The method would converge to the root if the initial guess is close to the root and the function is well-behaved.
     - Potential Problems
