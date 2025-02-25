@@ -12,6 +12,13 @@ It's a state feedback just like pole placement, but it's optimal. It's optimal b
 - **Quadratic:** because the cost function is quadratic
 - **Regulator:** because the goal is to stabilize the system
 
+# Modeling
+In LQR problems, having a linear model is a must.
+
+The linear model might be from a nonlinear model that is linearized around an operating point. 
+
+And the building of this nonlinear model is ususally based on the lagrangian dynamics of the system. 
+
 # Finite Horizon LQR
 - Why "**finite horizon**"? **A:** because the cost function is defined over a **finite time horizon**
 - The goal is to reach a desired goal $x_g$ in finite time
@@ -136,3 +143,24 @@ for k = (N-1):-1:1
 end
 ```
 1. Starting from the last time step, compute the optimal feedback gain matrix K and the solution to the Riccati equation P
+2. Move backward in time and compute the optimal feedback gain matrix K and the solution to the Riccati equation P
+**Q:** In Riccati is only one k is calculated, or is k dynamically changing?
+**A:** k is changing, it's a loop that goes from N-1 to 1
+
+Every time step, we compute the optimal feedback gain matrix K and the solution to the Riccati equation P. We would put them in a matrix and do feedback policy for each time step control.
+
+
+## Comparison with Pole Placement
+- Pole placement is a special case of LQR
+- The problem with pole placement is
+  - You could only tune the poles and affect the transient response. You can't tune the steady-state error
+  - The transition from the response plot to the physcal system is not very translational. Which means while you could tune the pole to make the system more stable, the connection between the pole and the performance is not very clear.
+- In LQR, you could tune the Q and R to directly modify the error and the control effort.
+
+# Infinite Horizon LQR
+While the introduction to LQR above is about finite horizon LQR, the infinite horizon LQR is about the cost function that is defined over an infinite time horizon. The cost function is defined as
+$$
+J = \sum_{k=0}^{\infty} [(x_k - x_g)^T Q (x_k - x_g) + u_k^T R u_k]
+$$
+The difference is that in infinite horizon LQR, we don't have a clear terminal state. While in finite LQR, the context is usually to complete a task or to reach a goal, in infinite LQR, the context is usually to design a controller (with a proper K) that stabilizes the system. 
+
