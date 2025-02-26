@@ -4,6 +4,7 @@ description: "ROS Tutorial"
 slug: "ROS"
 categories:
     - Robotics
+image: ROS.png
 ---
 
 # ROS
