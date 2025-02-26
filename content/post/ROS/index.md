@@ -1,6 +1,6 @@
 ---
 title: "ROS"
-description: "This article would walk through how to install ROS on Ubuntu."
+description: "ROS Tutorial"
 slug: "ROS"
 categories:
     - Robotics
@@ -76,7 +76,32 @@ A: ROS has been very mature on Linux. It is the most popular operating system fo
 4. Install ROS2
    1. `sudo apt update && sudo apt upgrade`
    2. `sudo apt install ros-jazzy-desktop`
-   3. `sudo apt install ros-jazzy-ros-base`
-Common Bugs refer to [BUG FIX](https://blog.csdn.net/weixin_46445090/article/details/144812129)
+   3. `sudo apt install ros-jazzy-ros-base`  
+**Common Bugs refer to** [BUG FIX](https://blog.csdn.net/weixin_46445090/article/details/144812129)
 
 
+### ROS2 Commands
+1. `ros2 run package_name executable_name` - run a ROS2 node
+2. `ros2 node list` - list all the nodes
+3. `ros2 node info /node_name` - get information about a node
+4. `ros2 topic list` - list all the topics
+5. `ros2 topic echo /topic_name` - echo the messages on a topic
+6. `ros2 topic pub --rate 1 /target/cmd_vel geometry_msgs/Twist '{linear: {x: 0.1}, angular: {z: 0.1}}'` - publish a message on a topic
+7. `ros2 bag record /target/cmd_vel` - record messages on a topic
+8. `ros2 bag play /target/cmd_vel` - play messages from a bag file This would be useful for record a behavior and replay it later for other experiments.
+
+### VSCode
+1. Install VSCode
+2. Install some extensions
+   1. C/C++
+   2. Python
+   3. ROS
+   4. Jupyter
+   5. Cmake
+   
+
+
+### Gazebo
+1. Gazebo is a 3D simulator that allows you to test your robot in a virtual environment.
+2. `sudo apt-get install ros-${ROS_DISTRO}-ros-gz`
+   Refer to [Gazebo Installation for corresponding ROS](https://gazebosim.org/docs/latest/ros_installation/)

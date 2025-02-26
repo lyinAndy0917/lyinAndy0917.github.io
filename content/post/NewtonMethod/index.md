@@ -37,8 +37,10 @@ We then decide the step length with a linesearch that finds the largest $\alpha 
 $$ \phi(z_k + \alpha \Delta z) < \phi(z_k)$$
 Where $\phi$ is a "merit function", or `merit_fx(z)` in the code. 
 
-This is called the "Armijo rule", and it is a sufficient decrease condition.
-Q: In my understanding, the Armiho rule is guranteeing that the line is decreasing.
+This is called the "Armijo rule", and it is a sufficient decrease condition.  
+In my understanding, **the Armiho rule is guranteeing that the line is decreasing.**  
+
+
 
 
 
