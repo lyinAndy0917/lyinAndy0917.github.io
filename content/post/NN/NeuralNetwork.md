@@ -56,7 +56,7 @@ $$
 \end{align}
 $$
 where $f$ is the activation function.
-The chaining of perceptrons is constructed by this chainning effect.
+The chaining of perceptrons is constructed by this chainning effect (chain rule).
 
 At the end, you would manually calculate the error and adjust the weights and biases so that the result best matches the ground truth.
 
@@ -86,4 +86,66 @@ class MLP(nn.Module):
 
 model = MLP()
 ```
-Even though in the code the bias code is not presented explicitly, it is still there by default (taken into account).
+Even though in the code the bias term is not presented explicitly, it is still there by default (taken into account).
+
+## For example
+$$
+f(x) = \frac{1}{1+e^{-k \cdot x}}
+$$
+where $k$ determines the shape or slope of the sigmoid function.
+
+## Activation Functions
+- Sigmoid
+- Tanh
+- Step
+- Softplus
+- swish
+- ReLU
+- sinc
+- softsign
+
+
+- Linear (identity): it takes the input and returns the input. This is basically no activation function.
+- Step: Squashes the input to 0 or 1. It is not used in hidden layers.
+
+### Sigmod
+$$ f(x) = \frac{1}{1+e^{-x}}$$
+$$ f'(x) = f(x)(1-f(x))$$
+
+When the gradient goes to zero, it becomes problematic. This is called the **vanishing gradient problem.**  
+This is Undesirable for hidden layers.**WHY?**
+
+Why do these gradients matter?
+- The only thing we trying to find is the weights and biases that minimize the error.
+- weak gradient slows the learning process.
+- A zero gradient would kill a neuron.
+
+$$ \frac{\partial y}{\partial x} = \frac{\partial y}{\partial z} \frac{\partial z}{\partial x}$$
+
+
+### Tanh
+$$ f(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$$
+$$ f'(x) = 1 - f(x)^2$$
+Data is centered around 0. It is zero centered. It is better than the sigmoid function. Less "positive" and "negative" bias.
+Undesired for middle layers.
+
+
+**ResNet:** Residual Network
+- It uses skip connections to avoid the vanishing gradient problem.
+
+Q:
+- Positive Bias
+- zero centered
+- why gradient matters
+- hwo does gradient contribute to the result
+- the chain rule?
+- What does the activation function do?
+
+
+
+## ReLu
+- Nowadays, you want to always start with ReLU. It is the most popular activation function.
+- But what if the input is negative? The gradient is zero. A solution is to use the leaky ReLU.
+- We are keep the negative part have a minimal slope but not zero.
+- In addition to that, instead of having the slope in the negative part to be a constant, we can make it a learnable parameter. This is called the Parametric ReLU.
+
