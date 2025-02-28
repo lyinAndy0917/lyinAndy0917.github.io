@@ -1,5 +1,5 @@
 ---
-title: "Equality Constrained Optimization"
+title: "Newton's Method"
 description: "An introduction to Newton's method."
 slug: "Newton's Method"
 categories:
