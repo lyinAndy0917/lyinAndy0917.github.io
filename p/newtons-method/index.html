@@ -1,0 +1,294 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="An introduction to Newton's method."><title>Newton's Method</title>
+<link rel=canonical href=https://lyinandy0917.github.io/p/newtons-method/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="Newton's Method"><meta property='og:description' content="An introduction to Newton's method."><meta property='og:url' content='https://lyinandy0917.github.io/p/newtons-method/'><meta property='og:site_name' content='ANDY尹樑'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta name=twitter:title content="Newton's Method"><meta name=twitter:description content="An introduction to Newton's method."><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_e02202f6717fc524.png width=300 height=309 class=site-logo loading=lazy alt=Avatar></a></figure><div class=site-meta><h1 class=site-name><a href=/>ANDY尹樑</a></h1><h2 class=site-description>积硅步，行千里</h2></div></header><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#problem-setup>Problem Setup</a></li><li><a href=#equality-constrained-optimization>Equality Constrained Optimization</a><ol><li><a href=#full-newtons-method>Full Newton&rsquo;s Method</a><ol><li><a href=#newtons-method-with-a-linesearch>Newton&rsquo;s Method with a Linesearch</a></li></ol></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/optimization/>Optimization</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/newtons-method/>Newton's Method</a></h2><h3 class=article-subtitle>An introduction to Newton's method.</h3></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>7 minute read</time></div></footer></div></header><section class=article-content><h1 id=newtons-method>Newton&rsquo;s Method</h1><h2 id=problem-setup>Problem Setup</h2><p>Given a problem:
+Here we are going to solve some equality-constrained optimization problems with Newton&rsquo;s method. We are given a problem</p>$$ \begin{align} \min_x \quad & f(x) \\ 
+ \text{st} \quad & c(x) = 0
+\end{align}$$$$ \mathcal{L}(x,\lambda) = f(x) + \lambda ^T c(x), $$$$\begin{align}
+\nabla_x \mathcal{L} = \nabla_x f(x) + \bigg[ \frac{\partial c}{\partial x}\bigg] ^T \lambda &= 0 \\ 
+c(x) &= 0 
+\end{align}$$<p>Which is just a root-finding problem. To solve this, we are going to solve for a $z = [x^T,\lambda]^T$ that satisfies these KKT conditions.</p><h2 id=equality-constrained-optimization>Equality Constrained Optimization</h2><h3 id=full-newtons-method>Full Newton&rsquo;s Method</h3><p>Lets say we have a curve function $r(z)$ that we want to find the root of. We can use Newton&rsquo;s method to solve for when $r(z) = 0$. To do this, we specify <code>res_fx(z)</code> as $r(z)$, and <code>res_jac_fx(z)</code> as $\partial r/ \partial z$. So the decreasing process is described as follows:</p>$$
+r(z_{k+1}) = r(z_k) + \bigg[ \frac{\partial r}{\partial z} \bigg]
+$$<p>The problem with this is that when the f is approaching zero, the slope or gradient would become really small, leading it to be slow to converge.</p><p>So we introduce a new variable $\Delta z$ to the equation, and we have the following:</p>$$
+r(z_{k+1}) = r(z_k) + \bigg[ \frac{\partial r}{\partial z} \bigg] \Delta z
+$$<h4 id=newtons-method-with-a-linesearch>Newton&rsquo;s Method with a Linesearch</h4><p>We use Newton&rsquo;s method to solve for when $r(z) = 0$. To do this, we specify <code>res_fx(z)</code> as $r(z)$, and <code>res_jac_fx(z)</code> as $\partial r/ \partial z$. To calculate a Newton step, we do the following:</p>$$\Delta z = -\bigg[ \frac{\partial r}{\partial z} \bigg]^{-1} r(z_k)$$$$ \phi(z_k + \alpha \Delta z) < \phi(z_k)$$<p>Where $\phi$ is a &ldquo;merit function&rdquo;, or <code>merit_fx(z)</code> in the code.</p><p>This is called the &ldquo;Armijo rule&rdquo;, and it is a sufficient decrease condition.<br>In my understanding, <strong>the Armiho rule is guranteeing that the line is decreasing.</strong></p><p><strong>Q:</strong> What does $\alpha$ really represent? By by decreasing alpha, what is the effect on the line search?
+<strong>A:</strong> Basically for newton method, in decreasing, we use the slope of that point to find the next point. So by decreasing alpha, we are decreasing the step size.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-julia data-lang=julia><span class=line><span class=cl><span class=k>function</span> <span class=n>linesearch</span><span class=p>(</span><span class=n>z</span><span class=o>::</span><span class=kt>Vector</span><span class=p>,</span> <span class=n>Δz</span><span class=o>::</span><span class=kt>Vector</span><span class=p>,</span> <span class=n>merit_fx</span><span class=o>::</span><span class=kt>Function</span><span class=p>;</span> <span class=n>max_ls_iters</span> <span class=o>=</span> <span class=mi>10</span><span class=p>)</span><span class=o>::</span><span class=kt>Float64</span>
+</span></span><span class=line><span class=cl>    <span class=n>α</span> <span class=o>=</span> <span class=mf>1.0</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>1</span><span class=o>:</span><span class=n>max_ls_iters</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>merit_fx</span><span class=p>(</span><span class=n>z</span> <span class=o>+</span> <span class=n>α</span> <span class=o>*</span> <span class=n>Δz</span><span class=p>)</span> <span class=o>&lt;</span> <span class=n>merit_fx</span><span class=p>(</span><span class=n>z</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>α</span>
+</span></span><span class=line><span class=cl>        <span class=k>end</span>
+</span></span><span class=line><span class=cl>        <span class=n>α</span> <span class=o>/=</span> <span class=mf>2.0</span>
+</span></span><span class=line><span class=cl>    <span class=k>end</span>
+</span></span><span class=line><span class=cl>    <span class=n>error</span><span class=p>(</span><span class=s>&#34;linesearch failed&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span></code></pre></td></tr></table></div></div><p>This ensure a sufficient decrease in the merit function. If the merit function is not decreasing, we would decrease the step size by half and try again. The function fails when no matter how small the step size is, we can&rsquo;t get a sufficient decrease.</p><p>Now we would throw the <code>linesearch</code> function into the <code>newton</code> function. The <code>newton</code> function would calculate the Newton step and then use the <code>linesearch</code> function to find the optimal step size.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-julia data-lang=julia><span class=line><span class=cl><span class=k>function</span> <span class=n>newtons_method</span><span class=p>(</span><span class=n>z0</span><span class=o>::</span><span class=kt>Vector</span><span class=p>,</span> <span class=n>res_fx</span><span class=o>::</span><span class=kt>Function</span><span class=p>,</span> <span class=n>res_jac_fx</span><span class=o>::</span><span class=kt>Function</span><span class=p>,</span> <span class=n>merit_fx</span><span class=o>::</span><span class=kt>Function</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                        <span class=n>tol</span> <span class=o>=</span> <span class=mf>1e-10</span><span class=p>,</span> <span class=n>max_iters</span> <span class=o>=</span> <span class=mi>50</span><span class=p>,</span> <span class=n>verbose</span> <span class=o>=</span> <span class=nb>false</span><span class=p>)</span><span class=o>::</span><span class=kt>Vector</span><span class=p>{</span><span class=kt>Vector</span><span class=p>{</span><span class=kt>Float64</span><span class=p>}}</span>
+</span></span><span class=line><span class=cl>    <span class=c># - z0, initial guess </span>
+</span></span><span class=line><span class=cl>    <span class=c># - res_fx, residual function </span>
+</span></span><span class=line><span class=cl>    <span class=c># - res_jac_fx, Jacobian of residual function wrt z </span>
+</span></span><span class=line><span class=cl>    <span class=c># - merit_fx, merit function for use in linesearch </span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c># optional arguments </span>
+</span></span><span class=line><span class=cl>    <span class=c># - tol, tolerance for convergence. Return when norm(residual)&lt;tol </span>
+</span></span><span class=line><span class=cl>    <span class=c># - max iter, max # of iterations </span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c># return a vector of vectors containing the iterates </span>
+</span></span><span class=line><span class=cl>    <span class=c># the last vector in this vector of vectors should be the approx. solution </span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c># return the history of guesses as a vector</span>
+</span></span><span class=line><span class=cl>    <span class=n>Z</span> <span class=o>=</span> <span class=p>[</span><span class=n>z0</span><span class=p>]</span>  <span class=c># Initialize with the initial guess</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>1</span><span class=o>:</span><span class=n>max_iters</span>
+</span></span><span class=line><span class=cl>        <span class=n>r</span> <span class=o>=</span> <span class=n>res_fx</span><span class=p>(</span><span class=n>Z</span><span class=p>[</span><span class=k>end</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>        <span class=n>norm_r</span> <span class=o>=</span> <span class=n>norm</span><span class=p>(</span><span class=n>r</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>verbose</span>
+</span></span><span class=line><span class=cl>            <span class=n>println</span><span class=p>(</span><span class=s>&#34;iter: </span><span class=si>$i</span><span class=s>    |r|: </span><span class=si>$norm_r</span><span class=s>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>end</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>norm_r</span> <span class=o>&lt;</span> <span class=n>tol</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>Z</span>
+</span></span><span class=line><span class=cl>        <span class=k>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>J</span> <span class=o>=</span> <span class=n>res_jac_fx</span><span class=p>(</span><span class=n>Z</span><span class=p>[</span><span class=k>end</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>        <span class=n>Δz</span> <span class=o>=</span> <span class=o>-</span><span class=n>J</span> <span class=o>\</span> <span class=n>r</span>
+</span></span><span class=line><span class=cl>        <span class=n>α</span> <span class=o>=</span> <span class=n>linesearch</span><span class=p>(</span><span class=n>Z</span><span class=p>[</span><span class=k>end</span><span class=p>],</span> <span class=n>Δz</span><span class=p>,</span> <span class=n>merit_fx</span><span class=p>,</span> <span class=n>max_ls_iters</span> <span class=o>=</span> <span class=mi>10</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>Z</span> <span class=o>=</span> <span class=n>vcat</span><span class=p>(</span><span class=n>Z</span><span class=p>,</span> <span class=p>[</span><span class=n>Z</span><span class=p>[</span><span class=k>end</span><span class=p>]</span> <span class=o>+</span> <span class=n>α</span> <span class=o>*</span> <span class=n>Δz</span><span class=p>])</span> <span class=c># this ensure that it includes the new guess as it also satisfies the merit function</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=n>verbose</span>
+</span></span><span class=line><span class=cl>            <span class=n>println</span><span class=p>(</span><span class=s>&#34;α: </span><span class=si>$α</span><span class=s>&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>end</span>
+</span></span><span class=line><span class=cl>    <span class=k>end</span>
+</span></span><span class=line><span class=cl>    <span class=n>error</span><span class=p>(</span><span class=s>&#34;Newton&#39;s method did not converge&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span></code></pre></td></tr></table></div></div><p>Next we are going to use the newton method to solve the equality-constrained optimization problem. We are going to use the following functions:</p><p>First, let&rsquo;s define the cost function and the constraint function.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-julia data-lang=julia><span class=line><span class=cl><span class=k>function</span> <span class=n>cost</span><span class=p>(</span><span class=n>x</span><span class=o>::</span><span class=kt>Vector</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>Q</span> <span class=o>=</span> <span class=p>[</span><span class=mf>1.65539</span>  <span class=mf>2.89376</span><span class=p>;</span> <span class=mf>2.89376</span>  <span class=mf>6.51521</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=n>q</span> <span class=o>=</span> <span class=p>[</span><span class=mi>2</span><span class=p>;</span><span class=o>-</span><span class=mi>3</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mf>0.5</span><span class=o>*</span><span class=n>x</span><span class=o>&#39;*</span><span class=n>Q</span><span class=o>*</span><span class=n>x</span> <span class=o>+</span> <span class=n>q</span><span class=o>&#39;*</span><span class=n>x</span> <span class=o>+</span> <span class=n>exp</span><span class=p>(</span><span class=o>-</span><span class=mf>1.3</span><span class=o>*</span><span class=n>x</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>+</span> <span class=mf>0.3</span><span class=o>*</span><span class=n>x</span><span class=p>[</span><span class=mi>2</span><span class=p>]</span><span class=o>^</span><span class=mi>2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span><span class=line><span class=cl><span class=k>function</span> <span class=n>constraint</span><span class=p>(</span><span class=n>x</span><span class=o>::</span><span class=kt>Vector</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>norm</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=o>-</span> <span class=mf>0.5</span> 
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span></code></pre></td></tr></table></div></div><p>Second we would define the constraint Jacobian and the Lagrangian.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-julia data-lang=julia><span class=line><span class=cl><span class=k>function</span> <span class=n>constraint_jacobian</span><span class=p>(</span><span class=n>x</span><span class=o>::</span><span class=kt>Vector</span><span class=p>)</span><span class=o>::</span><span class=kt>Matrix</span>
+</span></span><span class=line><span class=cl>    <span class=c># since `constraint` returns a scalar value, ForwardDiff </span>
+</span></span><span class=line><span class=cl>    <span class=c># will only allow us to compute a gradient of this function </span>
+</span></span><span class=line><span class=cl>    <span class=n>J</span> <span class=o>=</span> <span class=n>reshape</span><span class=p>(</span><span class=n>FD</span><span class=o>.</span><span class=n>gradient</span><span class=p>(</span><span class=n>constraint</span><span class=p>,</span> <span class=n>x</span><span class=p>),</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=c>#    J = FD.gradient(constraint, x)</span>
+</span></span><span class=line><span class=cl>    <span class=c># In general, the gradient is length(x)×1 as a column vector or</span>
+</span></span><span class=line><span class=cl>    <span class=c># 1×length(x) as a row vector—depending on how you need it shaped.</span>
+</span></span><span class=line><span class=cl>    <span class=c># return reshape(J, 1, length(J)) could do this without loss of generality</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>J</span>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span></code></pre></td></tr></table></div></div><p>Now we would work to implement the KKT conditions.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-julia data-lang=julia><span class=line><span class=cl><span class=k>function</span> <span class=n>kkt_conditions</span><span class=p>(</span><span class=n>z</span><span class=o>::</span><span class=kt>Vector</span><span class=p>)</span><span class=o>::</span><span class=kt>Vector</span>
+</span></span><span class=line><span class=cl>    <span class=c># TODO: return the KKT conditions</span>
+</span></span><span class=line><span class=cl>    <span class=n>x</span> <span class=o>=</span> <span class=n>z</span><span class=p>[</span><span class=mi>1</span><span class=o>:</span><span class=mi>2</span><span class=p>]</span> <span class=c># x is the first two elements of z</span>
+</span></span><span class=line><span class=cl>    <span class=n>λ</span> <span class=o>=</span> <span class=n>z</span><span class=p>[</span><span class=mi>3</span><span class=p>]</span> <span class=c># λ is the third element of z</span>
+</span></span><span class=line><span class=cl>    <span class=c># Since we are solving a equality-constrained optimization problem, the Z would be [x,λ]</span>
+</span></span><span class=line><span class=cl>    <span class=c># TODO: return the stationarity condition for the cost function</span>
+</span></span><span class=line><span class=cl>    <span class=c># and the primal feasibility</span>
+</span></span><span class=line><span class=cl>    <span class=n>grad_f</span> <span class=o>=</span> <span class=n>ForwardDiff</span><span class=o>.</span><span class=n>gradient</span><span class=p>(</span><span class=n>cost</span><span class=p>,</span> <span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>grad_g</span> <span class=o>=</span> <span class=n>vec</span><span class=p>(</span><span class=n>constraint_jacobian</span><span class=p>(</span><span class=n>x</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=n>stationarity</span> <span class=o>=</span> <span class=n>grad_f</span> <span class=o>+</span> <span class=n>λ</span> <span class=o>*</span> <span class=n>grad_g</span>
+</span></span><span class=line><span class=cl>    <span class=n>feasibility</span> <span class=o>=</span> <span class=n>constraint</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=c>#error(&#34;kkt not implemented&#34;)</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>vcat</span><span class=p>(</span><span class=n>stationarity</span><span class=p>,</span> <span class=n>feasibility</span><span class=p>)</span> 
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span></code></pre></td></tr></table></div></div><p>Because <strong>those KKT conditions <em>are</em> your residual vector \(r(z)\).</strong> In other words:</p><ol><li>$$
+\begin{align}
+\nabla_x \mathcal{L} = \nabla_x f(x) + \bigg[ \frac{\partial c}{\partial x}\bigg] ^T \lambda &= 0 \\
+    c(x) &= 0
+    \end{align}
+$$</li><li>$$
+r(z) = \begin{bmatrix}
+\nabla_x f(x) + \bigg[ \frac{\partial c}{\partial x}\bigg] ^T \lambda \\
+c(x)
+\end{bmatrix} = 0
+$$$$
+r(z_{k+1}) = r(z_k) + \bigg[ \frac{\partial r}{\partial z} \bigg] \Delta z \\
+\Delta z = -\bigg[ \frac{\partial r}{\partial z} \bigg]^{-1} r(z_k)
+$$<p>So you could see we need the derivative of the residual function to compute the newton step $\Delta z$.</p></li><li>$$\begin{bmatrix}
+\underbrace{\tfrac{\partial}{\partial x}\Bigl(\nabla f(x) + \Bigl[\tfrac{\partial c}{\partial x}(x)\Bigr]^T \,\lambda\Bigr)}_{\text{2×2 block, call it }A}
+&
+   \underbrace{\tfrac{\partial}{\partial \lambda}\Bigl(\nabla f(x) + \Bigl[\tfrac{\partial c}{\partial x}(x)\Bigr]^T \,\lambda\Bigr)}_{\text{2×1 block, call it }b}
+\\[8pt]
+\underbrace{\tfrac{\partial}{\partial x}\,c(x)}_{\text{1×2 block, call it }c}
+&
+   \underbrace{\tfrac{\partial}{\partial \lambda}\,c(x)}_{\text{(1×1) block, typically }0}
+\end{bmatrix}$$</li></ol><p>Putting it all together:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-julia data-lang=julia><span class=line><span class=cl><span class=k>function</span> <span class=n>fn_kkt_jac</span><span class=p>(</span><span class=n>z</span><span class=o>::</span><span class=kt>Vector</span><span class=p>)</span><span class=o>::</span><span class=kt>Matrix</span>
+</span></span><span class=line><span class=cl>    <span class=c># TODO: return full Newton Jacobian of kkt conditions wrt z</span>
+</span></span><span class=line><span class=cl>    <span class=n>x</span> <span class=o>=</span> <span class=n>z</span><span class=p>[</span><span class=mi>1</span><span class=o>:</span><span class=mi>2</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>λ</span> <span class=o>=</span> <span class=n>z</span><span class=p>[</span><span class=mi>3</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c># TODO: return full Newton jacobian with a 1e-3 regularizer</span>
+</span></span><span class=line><span class=cl>    <span class=c># to ensure the matrix is invertible</span>
+</span></span><span class=line><span class=cl>    <span class=c># we need the A, b, c, d</span>
+</span></span><span class=line><span class=cl>    <span class=n>A</span> <span class=o>=</span> <span class=n>ForwardDiff</span><span class=o>.</span><span class=n>jacobian</span><span class=p>(</span><span class=n>z</span> <span class=o>-&gt;</span> <span class=n>kkt_conditions</span><span class=p>(</span><span class=n>z</span><span class=p>)[</span><span class=mi>1</span><span class=o>:</span><span class=mi>2</span><span class=p>],</span> <span class=n>z</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>b</span> <span class=o>=</span> <span class=n>ForwardDiff</span><span class=o>.</span><span class=n>jacobian</span><span class=p>(</span><span class=n>z</span> <span class=o>-&gt;</span> <span class=n>kkt_conditions</span><span class=p>(</span><span class=n>z</span><span class=p>)[</span><span class=mi>1</span><span class=o>:</span><span class=mi>2</span><span class=p>],</span> <span class=n>z</span><span class=p>)[</span><span class=mi>3</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>c</span> <span class=o>=</span> <span class=n>ForwardDiff</span><span class=o>.</span><span class=n>jacobian</span><span class=p>(</span><span class=n>z</span> <span class=o>-&gt;</span> <span class=n>kkt_conditions</span><span class=p>(</span><span class=n>z</span><span class=p>)[</span><span class=mi>3</span><span class=p>],</span> <span class=n>z</span><span class=p>)[</span><span class=mi>1</span><span class=o>:</span><span class=mi>2</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>d</span> <span class=o>=</span> <span class=n>ForwardDiff</span><span class=o>.</span><span class=n>jacobian</span><span class=p>(</span><span class=n>z</span> <span class=o>-&gt;</span> <span class=n>kkt_conditions</span><span class=p>(</span><span class=n>z</span><span class=p>)[</span><span class=mi>3</span><span class=p>],</span> <span class=n>z</span><span class=p>)[</span><span class=mi>3</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>J</span> <span class=o>=</span> <span class=n>vcat</span><span class=p>(</span><span class=n>hcat</span><span class=p>(</span><span class=n>A</span><span class=p>,</span> <span class=n>b</span><span class=p>),</span> <span class=n>hcat</span><span class=p>(</span><span class=n>c</span><span class=p>,</span> <span class=n>d</span><span class=p>)</span> <span class=o>+</span> <span class=mf>1e-3</span> <span class=o>*</span> <span class=n>I</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>J</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span></code></pre></td></tr></table></div></div><p>Now let&rsquo;s make a small modification to the <code>newtons_method</code> function to use the <code>gn_kkt_jac</code> function.</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-julia data-lang=julia><span class=line><span class=cl><span class=k>function</span> <span class=n>gn_kkt_jac</span><span class=p>(</span><span class=n>z</span><span class=o>::</span><span class=kt>Vector</span><span class=p>)</span><span class=o>::</span><span class=kt>Matrix</span>
+</span></span><span class=line><span class=cl>    <span class=c># TODO: return Gauss-Newton Jacobian of kkt conditions wrt z </span>
+</span></span><span class=line><span class=cl>    <span class=n>x</span> <span class=o>=</span> <span class=n>z</span><span class=p>[</span><span class=mi>1</span><span class=o>:</span><span class=mi>2</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>λ</span> <span class=o>=</span> <span class=n>z</span><span class=p>[</span><span class=mi>3</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c># TODO: return Gauss-Newton jacobian with a 1e-3 regularizer</span>
+</span></span><span class=line><span class=cl>    <span class=c>#error(&#34;gn_kkt_jac not implemented&#34;)</span>
+</span></span><span class=line><span class=cl>    <span class=c># Compute the Hessian of cost.</span>
+</span></span><span class=line><span class=cl>    <span class=n>H_f</span> <span class=o>=</span> <span class=n>FD</span><span class=o>.</span><span class=n>hessian</span><span class=p>(</span><span class=n>cost</span><span class=p>,</span> <span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c># Compute the gradient of the constraint.</span>
+</span></span><span class=line><span class=cl>    <span class=n>grad_g</span> <span class=o>=</span> <span class=n>vec</span><span class=p>(</span><span class=n>constraint_jacobian</span><span class=p>(</span><span class=n>x</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c># For the Gauss-Newton approximation we use H_f alone.</span>
+</span></span><span class=line><span class=cl>    <span class=n>A</span> <span class=o>=</span> <span class=n>H_f</span>      <span class=c># instead of H_f + λ * H_g.</span>
+</span></span><span class=line><span class=cl>    <span class=n>b</span> <span class=o>=</span> <span class=n>grad_g</span>
+</span></span><span class=line><span class=cl>    <span class=n>c</span> <span class=o>=</span> <span class=n>grad_g</span><span class=o>&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=n>d</span> <span class=o>=</span> <span class=mf>0.0</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c># Build the approximate Jacobian.</span>
+</span></span><span class=line><span class=cl>    <span class=n>J</span> <span class=o>=</span> <span class=p>[</span><span class=n>A</span>   <span class=n>b</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>         <span class=n>c</span>   <span class=n>d</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=c># Add a 1e-3 regularizer to the diagonal.</span>
+</span></span><span class=line><span class=cl>    <span class=n>J</span> <span class=o>-=</span> <span class=mf>1e-3</span> <span class=o>*</span> <span class=n>I</span><span class=p>(</span><span class=mi>3</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>J</span> 
+</span></span><span class=line><span class=cl><span class=k>end</span>
+</span></span></code></pre></td></tr></table></div></div><p>When the constraints is almost satisfied, the Gauss-Newton method would be more efficient than the full Newton method.</p></section><footer class=article-footer><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{const e=document.querySelector(".main-article");renderMathInElement(e,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],ignoredClasses:["gist"]})})</script></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/neuralnetwork/><div class=article-details><h2 class=article-title>Neural Networks</h2></div></a></article><article><a href=/p/unconstrained-optimization/><div class=article-details><h2 class=article-title>Unconstrained Optimization</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugo-theme-stack.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 ANDY尹樑</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
