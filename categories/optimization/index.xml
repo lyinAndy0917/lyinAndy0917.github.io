@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Optimization on ANDY尹樑</title><link>https://lyinandy0917.github.io/categories/optimization/</link><description>Recent content in Optimization on ANDY尹樑</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://lyinandy0917.github.io/categories/optimization/index.xml" rel="self" type="application/rss+xml"/><item><title>Neural Networks</title><link>https://lyinandy0917.github.io/p/neuralnetwork/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/neuralnetwork/</guid><description>&lt;h1 id="neural-networks">Neural Networks
+&lt;/h1>&lt;ul>
+&lt;li>Regression&lt;/li>
+&lt;li>Classification
+&lt;ul>
+&lt;li>could also be done with SVMs&lt;/li>
+&lt;li>could also be done with decision trees&lt;/li>
+&lt;li>could also be done with logistic regression&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>So what we had done before (SVMs, decision trees, logistic regression), these are basically a single layer neural network with one percetron.&lt;/p>
+&lt;p>The essential goal in neural networks is &lt;strong>optimize the error&lt;/strong> by adjusting the weights and biases.&lt;/p>
+&lt;p>At the heart of neural network is the &lt;strong>perceptron.&lt;/strong> A neural network is essentially a collection of perceptrons put in series and parallel. Noted that we do not draw the bias in the diagram.&lt;/p>
+&lt;p>With a proper size of neural network, we can approximate any function.&lt;/p>
+&lt;p>In general, what happens in the hiddent neurons is not interpretable and the only thing we know is that they are trying minimize the error.&lt;/p>
+&lt;p>&lt;strong>Example:&lt;/strong>&lt;br>
+we have 3 features $x_1,x_2,x_3$ and we want to predict $y$, there for 3 weights $w_1,w_2,w_3$ and a bias $b$. Then we would have a activation function.&lt;/p>
+&lt;p>XOR problem:&lt;/p>
+&lt;ul>
+&lt;li>$x_1,x_2$ are the inputs&lt;/li>
+&lt;li>$y$ is the output&lt;/li>
+&lt;li>if both inputs are the same, then the output is 1&lt;/li>
+&lt;li>if the inputs are different, then the output is 0&lt;/li>
+&lt;/ul>
+&lt;h2 id="perceptron">Perceptron
+&lt;/h2>&lt;ul>
+&lt;li>The perceptron takes some inputs, weights them and fire a result(0/1).&lt;/li>
+&lt;li>It performs a dot product of the weights and the inputs, adds the bias, and then applies an activation function (such as a sigmoid function) to the result.
+$$ y = f(a) = f(W \cdot X)$$&lt;/li>
+&lt;/ul>
+$$ a_{1,1} = \sum_{i=1}^{n} w_{1,i}x_{0,i}$$&lt;p>
+It&amp;rsquo;s simply a dot product of the weights and the inputs.&lt;/p>
+&lt;h2 id="forward-propagation">Forward Propagation
+&lt;/h2>$$
+\begin{align}
+\vec{a_1} &amp;= \vec{W_1} \cdot \vec{x_0} \\
+\vec{x_1} &amp;= f(\vec{a_1}) \\
+\vec{a_2} &amp;= \vec{W_2} \cdot \vec{x_1} \\
+\vec{x_2} &amp;= f(\vec{a_2}) = f(\vec{W_2} \cdot \vec{x_1}) \\
+\vec{y} &amp;= f(\vec{W_3} \cdot \vec{x_2}) \\
+\end{align}
+$$&lt;p>
+where $f$ is the activation function.
+The chaining of perceptrons is constructed by this chainning effect (chain rule).&lt;/p>
+&lt;p>At the end, you would manually calculate the error and adjust the weights and biases so that the result best matches the ground truth.&lt;/p>
+&lt;h2 id="backpropagation">Backpropagation
+&lt;/h2>&lt;p>The key idea of neural network is to minimize a loss function through backpropagation.&lt;/p>
+&lt;h2 id="softmax">Softmax
+&lt;/h2>$$ \text{softmax}(x_i) = \frac{e^{x_i}}{\sum_{j=1}^{n} e^{x_j}}$$&lt;h2 id="define-a-neural-network-in-pytorch">Define a neural network in PyTorch
+&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">torch&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">torch.nn&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="nn">nn&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">class&lt;/span> &lt;span class="nc">MLP&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Module&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="fm">__init__&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">super&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">MLP&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="bp">self&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="fm">__init__&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">layers&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Sequential&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Linear&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">4&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ReLU&lt;/span>&lt;span class="p">(),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Linear&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">4&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ReLU&lt;/span>&lt;span class="p">(),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Linear&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="nf">forward&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">x&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">layers&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">model&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">MLP&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Even though in the code the bias term is not presented explicitly, it is still there by default (taken into account).&lt;/p>
+&lt;h2 id="for-example">For example
+&lt;/h2>$$
+f(x) = \frac{1}{1+e^{-k \cdot x}}
+$$&lt;p>
+where $k$ determines the shape or slope of the sigmoid function.&lt;/p>
+&lt;h2 id="activation-functions">Activation Functions
+&lt;/h2>&lt;ul>
+&lt;li>
+&lt;p>Sigmoid&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Tanh&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Step&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Softplus&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>swish&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>ReLU&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>sinc&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>softsign&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Linear (identity): it takes the input and returns the input. This is basically no activation function.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Step: Squashes the input to 0 or 1. It is not used in hidden layers.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="sigmod">Sigmod
+&lt;/h3>$$ f(x) = \frac{1}{1+e^{-x}}$$$$ f'(x) = f(x)(1-f(x))$$&lt;p>When the gradient goes to zero, it becomes problematic. This is called the &lt;strong>vanishing gradient problem.&lt;/strong>&lt;br>
+This is Undesirable for hidden layers.&lt;strong>WHY?&lt;/strong>&lt;/p>
+&lt;p>Why do these gradients matter?&lt;/p>
+&lt;ul>
+&lt;li>The only thing we trying to find is the weights and biases that minimize the error.&lt;/li>
+&lt;li>weak gradient slows the learning process.&lt;/li>
+&lt;li>A zero gradient would kill a neuron.&lt;/li>
+&lt;/ul>
+$$ \frac{\partial y}{\partial x} = \frac{\partial y}{\partial z} \frac{\partial z}{\partial x}$$&lt;h3 id="tanh">Tanh
+&lt;/h3>$$ f(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$$$$ f'(x) = 1 - f(x)^2$$&lt;p>
+Data is centered around 0. It is zero centered. It is better than the sigmoid function. Less &amp;ldquo;positive&amp;rdquo; and &amp;ldquo;negative&amp;rdquo; bias.
+Undesired for middle layers.&lt;/p>
+&lt;p>&lt;strong>ResNet:&lt;/strong> Residual Network&lt;/p>
+&lt;ul>
+&lt;li>It uses skip connections to avoid the vanishing gradient problem.&lt;/li>
+&lt;/ul>
+&lt;p>Q:&lt;/p>
+&lt;ul>
+&lt;li>Positive Bias&lt;/li>
+&lt;li>zero centered&lt;/li>
+&lt;li>why gradient matters&lt;/li>
+&lt;li>hwo does gradient contribute to the result&lt;/li>
+&lt;li>the chain rule?&lt;/li>
+&lt;li>What does the activation function do?&lt;/li>
+&lt;/ul>
+&lt;h2 id="relu">ReLu
+&lt;/h2>&lt;ul>
+&lt;li>Nowadays, you want to always start with ReLU. It is the most popular activation function.&lt;/li>
+&lt;li>But what if the input is negative? The gradient is zero. A solution is to use the leaky ReLU.&lt;/li>
+&lt;li>We are keep the negative part have a minimal slope but not zero.&lt;/li>
+&lt;li>In addition to that, instead of having the slope in the negative part to be a constant, we can make it a learnable parameter. This is called the Parametric ReLU.&lt;/li>
+&lt;/ul></description></item><item><title>Newton's Method</title><link>https://lyinandy0917.github.io/p/newtons-method/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/newtons-method/</guid><description>&lt;h1 id="newtons-method">Newton&amp;rsquo;s Method
+&lt;/h1>&lt;h2 id="problem-setup">Problem Setup
+&lt;/h2>&lt;p>Given a problem:
+Here we are going to solve some equality-constrained optimization problems with Newton&amp;rsquo;s method. We are given a problem&lt;/p>
+$$ \begin{align} \min_x \quad &amp; f(x) \\
+\text{st} \quad &amp; c(x) = 0
+\end{align}$$$$ \mathcal{L}(x,\lambda) = f(x) + \lambda ^T c(x), $$$$\begin{align}
+\nabla_x \mathcal{L} = \nabla_x f(x) + \bigg[ \frac{\partial c}{\partial x}\bigg] ^T \lambda &amp;= 0 \\
+c(x) &amp;= 0
+\end{align}$$&lt;p>Which is just a root-finding problem. To solve this, we are going to solve for a $z = [x^T,\lambda]^T$ that satisfies these KKT conditions.&lt;/p>
+&lt;h2 id="equality-constrained-optimization">Equality Constrained Optimization
+&lt;/h2>&lt;h3 id="full-newtons-method">Full Newton&amp;rsquo;s Method
+&lt;/h3>&lt;p>Lets say we have a curve function $r(z)$ that we want to find the root of. We can use Newton&amp;rsquo;s method to solve for when $r(z) = 0$. To do this, we specify &lt;code>res_fx(z)&lt;/code> as $r(z)$, and &lt;code>res_jac_fx(z)&lt;/code> as $\partial r/ \partial z$. So the decreasing process is described as follows:&lt;/p>
+$$
+r(z_{k+1}) = r(z_k) + \bigg[ \frac{\partial r}{\partial z} \bigg]
+$$&lt;p>The problem with this is that when the f is approaching zero, the slope or gradient would become really small, leading it to be slow to converge.&lt;/p>
+&lt;p>So we introduce a new variable $\Delta z$ to the equation, and we have the following:&lt;/p>
+$$
+r(z_{k+1}) = r(z_k) + \bigg[ \frac{\partial r}{\partial z} \bigg] \Delta z
+$$&lt;h4 id="newtons-method-with-a-linesearch">Newton&amp;rsquo;s Method with a Linesearch
+&lt;/h4>&lt;p>We use Newton&amp;rsquo;s method to solve for when $r(z) = 0$. To do this, we specify &lt;code>res_fx(z)&lt;/code> as $r(z)$, and &lt;code>res_jac_fx(z)&lt;/code> as $\partial r/ \partial z$. To calculate a Newton step, we do the following:&lt;/p>
+$$\Delta z = -\bigg[ \frac{\partial r}{\partial z} \bigg]^{-1} r(z_k)$$$$ \phi(z_k + \alpha \Delta z) &lt; \phi(z_k)$$&lt;p>
+Where $\phi$ is a &amp;ldquo;merit function&amp;rdquo;, or &lt;code>merit_fx(z)&lt;/code> in the code.&lt;/p>
+&lt;p>This is called the &amp;ldquo;Armijo rule&amp;rdquo;, and it is a sufficient decrease condition.&lt;br>
+In my understanding, &lt;strong>the Armiho rule is guranteeing that the line is decreasing.&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>Q:&lt;/strong> What does $\alpha$ really represent? By by decreasing alpha, what is the effect on the line search?
+&lt;strong>A:&lt;/strong> Basically for newton method, in decreasing, we use the slope of that point to find the next point. So by decreasing alpha, we are decreasing the step size.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-julia" data-lang="julia">&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> &lt;span class="n">linesearch&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Δz&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">merit_fx&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Function&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">max_ls_iters&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Float64&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">α&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">1.0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="n">max_ls_iters&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">merit_fx&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">α&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">Δz&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="n">merit_fx&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">α&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">α&lt;/span> &lt;span class="o">/=&lt;/span> &lt;span class="mf">2.0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">error&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;linesearch failed&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>This ensure a sufficient decrease in the merit function. If the merit function is not decreasing, we would decrease the step size by half and try again. The function fails when no matter how small the step size is, we can&amp;rsquo;t get a sufficient decrease.&lt;/p>
+&lt;p>Now we would throw the &lt;code>linesearch&lt;/code> function into the &lt;code>newton&lt;/code> function. The &lt;code>newton&lt;/code> function would calculate the Newton step and then use the &lt;code>linesearch&lt;/code> function to find the optimal step size.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-julia" data-lang="julia">&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> &lt;span class="n">newtons_method&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z0&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">res_fx&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Function&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">res_jac_fx&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Function&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">merit_fx&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Function&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">tol&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">1e-10&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">max_iters&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">50&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">verbose&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nb">false&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="kt">Float64&lt;/span>&lt;span class="p">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># - z0, initial guess &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># - res_fx, residual function &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># - res_jac_fx, Jacobian of residual function wrt z &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># - merit_fx, merit function for use in linesearch &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># optional arguments &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># - tol, tolerance for convergence. Return when norm(residual)&amp;lt;tol &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># - max iter, max # of iterations &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># return a vector of vectors containing the iterates &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># the last vector in this vector of vectors should be the approx. solution &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># return the history of guesses as a vector&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Z&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">z0&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="c"># Initialize with the initial guess&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="n">max_iters&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">r&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">res_fx&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">norm_r&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">norm&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">r&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">verbose&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;iter: &lt;/span>&lt;span class="si">$i&lt;/span>&lt;span class="s"> |r|: &lt;/span>&lt;span class="si">$norm_r&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">norm_r&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="n">tol&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">Z&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">J&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">res_jac_fx&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Δz&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">J&lt;/span> &lt;span class="o">\&lt;/span> &lt;span class="n">r&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">α&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">linesearch&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">Δz&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">merit_fx&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">max_ls_iters&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Z&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vcat&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Z&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">Z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">α&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">Δz&lt;/span>&lt;span class="p">])&lt;/span> &lt;span class="c"># this ensure that it includes the new guess as it also satisfies the merit function&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">verbose&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;α: &lt;/span>&lt;span class="si">$α&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">error&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Newton&amp;#39;s method did not converge&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Next we are going to use the newton method to solve the equality-constrained optimization problem. We are going to use the following functions:&lt;/p>
+&lt;p>First, let&amp;rsquo;s define the cost function and the constraint function.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-julia" data-lang="julia">&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> &lt;span class="n">cost&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Q&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="mf">1.65539&lt;/span> &lt;span class="mf">2.89376&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="mf">2.89376&lt;/span> &lt;span class="mf">6.51521&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">q&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="mf">0.5&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="o">&amp;#39;*&lt;/span>&lt;span class="n">Q&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">x&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">q&lt;/span>&lt;span class="o">&amp;#39;*&lt;/span>&lt;span class="n">x&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">exp&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mf">1.3&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mf">0.3&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="o">^&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> &lt;span class="n">constraint&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">norm&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mf">0.5&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Second we would define the constraint Jacobian and the Lagrangian.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-julia" data-lang="julia">&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> &lt;span class="n">constraint_jacobian&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Matrix&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># since `constraint` returns a scalar value, ForwardDiff &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># will only allow us to compute a gradient of this function &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">J&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">reshape&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">FD&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">gradient&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">constraint&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">x&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># J = FD.gradient(constraint, x)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># In general, the gradient is length(x)×1 as a column vector or&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># 1×length(x) as a row vector—depending on how you need it shaped.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># return reshape(J, 1, length(J)) could do this without loss of generality&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">J&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Now we would work to implement the KKT conditions.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-julia" data-lang="julia">&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> &lt;span class="n">kkt_conditions&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># TODO: return the KKT conditions&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">x&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="c"># x is the first two elements of z&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">λ&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="c"># λ is the third element of z&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># Since we are solving a equality-constrained optimization problem, the Z would be [x,λ]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># TODO: return the stationarity condition for the cost function&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># and the primal feasibility&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">grad_f&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ForwardDiff&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">gradient&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">cost&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">x&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">grad_g&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vec&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">constraint_jacobian&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">stationarity&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">grad_f&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">λ&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">grad_g&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">feasibility&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">constraint&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c">#error(&amp;#34;kkt not implemented&amp;#34;)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">vcat&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">stationarity&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">feasibility&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Because &lt;strong>those KKT conditions &lt;em>are&lt;/em> your residual vector \(r(z)\).&lt;/strong> In other words:&lt;/p>
+&lt;ol>
+&lt;li>
+$$
+\begin{align}
+\nabla_x \mathcal{L} = \nabla_x f(x) + \bigg[ \frac{\partial c}{\partial x}\bigg] ^T \lambda &amp;= 0 \\
+c(x) &amp;= 0
+\end{align}
+$$&lt;/li>
+&lt;li>
+$$
+r(z) = \begin{bmatrix}
+\nabla_x f(x) + \bigg[ \frac{\partial c}{\partial x}\bigg] ^T \lambda \\
+c(x)
+\end{bmatrix} = 0
+$$$$
+r(z_{k+1}) = r(z_k) + \bigg[ \frac{\partial r}{\partial z} \bigg] \Delta z \\
+\Delta z = -\bigg[ \frac{\partial r}{\partial z} \bigg]^{-1} r(z_k)
+$$&lt;p>
+So you could see we need the derivative of the residual function to compute the newton step $\Delta z$.&lt;/p>
+&lt;/li>
+&lt;li>
+$$\begin{bmatrix}
+\underbrace{\tfrac{\partial}{\partial x}\Bigl(\nabla f(x) + \Bigl[\tfrac{\partial c}{\partial x}(x)\Bigr]^T \,\lambda\Bigr)}_{\text{2×2 block, call it }A}
+&amp;
+\underbrace{\tfrac{\partial}{\partial \lambda}\Bigl(\nabla f(x) + \Bigl[\tfrac{\partial c}{\partial x}(x)\Bigr]^T \,\lambda\Bigr)}_{\text{2×1 block, call it }b}
+\\[8pt]
+\underbrace{\tfrac{\partial}{\partial x}\,c(x)}_{\text{1×2 block, call it }c}
+&amp;
+\underbrace{\tfrac{\partial}{\partial \lambda}\,c(x)}_{\text{(1×1) block, typically }0}
+\end{bmatrix}$$&lt;/li>
+&lt;/ol>
+&lt;p>Putting it all together:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-julia" data-lang="julia">&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> &lt;span class="n">fn_kkt_jac&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Matrix&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># TODO: return full Newton Jacobian of kkt conditions wrt z&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">x&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">λ&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># TODO: return full Newton jacobian with a 1e-3 regularizer&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># to ensure the matrix is invertible&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># we need the A, b, c, d&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">A&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ForwardDiff&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">jacobian&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="n">kkt_conditions&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">b&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ForwardDiff&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">jacobian&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="n">kkt_conditions&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">c&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ForwardDiff&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">jacobian&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="n">kkt_conditions&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">d&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ForwardDiff&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">jacobian&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="n">kkt_conditions&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">J&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vcat&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">hcat&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">A&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">b&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">hcat&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">c&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">d&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mf">1e-3&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">I&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">J&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Now let&amp;rsquo;s make a small modification to the &lt;code>newtons_method&lt;/code> function to use the &lt;code>gn_kkt_jac&lt;/code> function.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-julia" data-lang="julia">&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> &lt;span class="n">gn_kkt_jac&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Matrix&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># TODO: return Gauss-Newton Jacobian of kkt conditions wrt z &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">x&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">λ&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># TODO: return Gauss-Newton jacobian with a 1e-3 regularizer&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c">#error(&amp;#34;gn_kkt_jac not implemented&amp;#34;)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># Compute the Hessian of cost.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">H_f&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FD&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">hessian&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">cost&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">x&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># Compute the gradient of the constraint.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">grad_g&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vec&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">constraint_jacobian&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># For the Gauss-Newton approximation we use H_f alone.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">A&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">H_f&lt;/span> &lt;span class="c"># instead of H_f + λ * H_g.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">b&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">grad_g&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">c&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">grad_g&lt;/span>&lt;span class="o">&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">d&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">0.0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># Build the approximate Jacobian.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">J&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">A&lt;/span> &lt;span class="n">b&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">c&lt;/span> &lt;span class="n">d&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># Add a 1e-3 regularizer to the diagonal.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">J&lt;/span> &lt;span class="o">-=&lt;/span> &lt;span class="mf">1e-3&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">I&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">J&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>When the constraints is almost satisfied, the Gauss-Newton method would be more efficient than the full Newton method.&lt;/p></description></item><item><title>Unconstrained Optimization</title><link>https://lyinandy0917.github.io/p/unconstrained-optimization/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/unconstrained-optimization/</guid><description>&lt;h1 id="unconstrained-optimization">Unconstrained Optimization
+&lt;/h1>$$ \min_x \quad f(x) $$&lt;p>
+Assumption:&lt;/p>
+&lt;ul>
+&lt;li>$f(x)$ is twice differentiable&lt;/li>
+&lt;li>$f(x)$ is convex. The hessian of the function is positive semi-definite. (This means the function is bowl-shaped)&lt;/li>
+&lt;li>optimal solution $x^*$ exists&lt;/li>
+&lt;li>Optimal condition $\nabla f(x^*) = 0$. This mean the gradient of the function at the optimal solution is zero.&lt;/li>
+&lt;/ul>
+&lt;h2 id="convex-quadratic-function">Convex Quadratic Function
+&lt;/h2>$$ \begin{align} \min_x \quad &amp; \frac{1}{2} x^T P x + q^T x + r \\
+\quad &amp; \nabla f(x)= P x + q = 0
+\end{align} $$&lt;ul>
+&lt;li>P is the hessian of the function&lt;/li>
+&lt;li>q is the gradient of the function&lt;/li>
+&lt;li>r is the constant term&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Notation Explained&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>P is the hessian of the function&lt;/li>
+&lt;li>q is the gradient of the function&lt;/li>
+&lt;li>r is the constant term&lt;/li>
+&lt;/ul>
+$$ f(x) = f(x_0) + \nabla f(x_0)^T (x - x_0) + \frac{1}{2} (x - x_0)^T \nabla^2 f(x_0) (x - x_0) $$&lt;p>We could solve this problem by setting the gradient to zero.
+&lt;strong>Q:&lt;/strong> Why do we set the gradient to zero?
+&lt;strong>A:&lt;/strong> Because the gradient is zero at the optimal solution.&lt;/p>
+&lt;h2 id="method">Method:
+&lt;/h2>&lt;h3 id="gradient-descent">Gradient Descent
+&lt;/h3>$$ x_{k+1} = x_k + t_k \Delta x_k $$$$ \Delta x_k = - \nabla f(x_k) $$&lt;ol>
+&lt;li>choose a starting point $x_0$&lt;/li>
+&lt;li>repeat until convergence:
+&lt;ul>
+&lt;li>calculate the gradient $\nabla f(x_k)$&lt;/li>
+&lt;li>line search: find the step size $t_k$ that minimizes $f(x_k + t_k \Delta x_k)$&lt;/li>
+&lt;li>update $x_{k+1} = x_k + t_k \Delta x_k$&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Stop when L2 norm of the gradient is less than a threshold.
+$$ \nabla f(x_k) &lt; \text{threshold} $$&lt;/li>
+&lt;/ol></description></item></channel></rss>

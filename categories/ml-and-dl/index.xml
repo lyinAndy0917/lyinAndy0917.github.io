@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ML and DL on ANDY尹樑</title><link>https://lyinandy0917.github.io/categories/ml-and-dl/</link><description>Recent content in ML and DL on ANDY尹樑</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://lyinandy0917.github.io/categories/ml-and-dl/index.xml" rel="self" type="application/rss+xml"/><item><title>Convolution</title><link>https://lyinandy0917.github.io/p/control/convolution/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/control/convolution/</guid><description>&lt;h2 id="convolution">Convolution
+&lt;/h2>&lt;ul>
+&lt;li>&lt;strong>What&lt;/strong> is convolution?
+&lt;ul>
+&lt;li>Convolution is a mathematical operation that combines two signals to produce a third signal.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="understanding">Understanding:
+&lt;/h3>&lt;ul>
+&lt;li>卷积
+&lt;ul>
+&lt;li>何为“卷“： 一个信号在另一个信号上作反向平移&lt;/li>
+&lt;li>何为“积“： 两个信号的乘积&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+$$y(t) = \int_{-\infty}^{\infty} f(\tau)g(t-\tau)d\tau $$&lt;h3 id="in-terms-of-matrix">In terms of Matrix
+&lt;/h3>&lt;ol>
+&lt;li>Lets say we have a 3x3 matrix A as a kernel&lt;/li>
+&lt;li>And We have a 5x5 matrix B as an image&lt;/li>
+&lt;li>With this kernel, we can slide it over the image&lt;/li>
+&lt;li>At each position, we multiply the kernel and then you would get a new matrix C which has the dimension of 4x4&lt;/li>
+&lt;li>But now what about the edges? We can pad the image with zeros to make the output matrix the same size as the input matrix&lt;/li>
+&lt;li>This is called &lt;strong>zero-padding&lt;/strong>&lt;/li>
+&lt;/ol>
+&lt;h3 id="image-processing">Image processing
+&lt;/h3>&lt;ul>
+&lt;li>f is the image&lt;/li>
+&lt;li>g is the kernel&lt;/li>
+&lt;li>y is the output image&lt;/li>
+&lt;li>In this application, Convolution is like telling how the near points would have an effect on the current point&lt;/li>
+&lt;li>In feature extraction, the kernel is the feature detector. It would compare the kernel with the image and by from the result you could tell how relevant the feature is to that part of the image.&lt;/li>
+&lt;/ul></description></item><item><title>SVM</title><link>https://lyinandy0917.github.io/p/svm/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/svm/</guid><description>&lt;h2 id="svm">SVM
+&lt;/h2>&lt;p>&lt;strong>Direct Approach:&lt;/strong> finding the hyperplane that best separates the classes (furthest from the nearest data points)&lt;/p>
+$$
+margin (W,b) = min_{i} \frac{y^{(i)}(W^T x^{(i)} + b)}{||W||}
+$$</description></item></channel></rss>

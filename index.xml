@@ -1,0 +1,1794 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>ANDY尹樑</title><link>https://lyinandy0917.github.io/</link><description>Recent content on ANDY尹樑</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 06 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://lyinandy0917.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Control</title><link>https://lyinandy0917.github.io/p/control/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/control/</guid><description>&lt;img src="https://lyinandy0917.github.io/p/control/robo.png" alt="Featured image of post Control" /></description></item><item><title>Archives</title><link>https://lyinandy0917.github.io/archives/</link><pubDate>Sun, 06 Mar 2022 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/archives/</guid><description/></item><item><title>Convolution</title><link>https://lyinandy0917.github.io/p/control/convolution/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/control/convolution/</guid><description>&lt;h2 id="convolution">Convolution
+&lt;/h2>&lt;ul>
+&lt;li>&lt;strong>What&lt;/strong> is convolution?
+&lt;ul>
+&lt;li>Convolution is a mathematical operation that combines two signals to produce a third signal.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="understanding">Understanding:
+&lt;/h3>&lt;ul>
+&lt;li>卷积
+&lt;ul>
+&lt;li>何为“卷“： 一个信号在另一个信号上作反向平移&lt;/li>
+&lt;li>何为“积“： 两个信号的乘积&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+$$y(t) = \int_{-\infty}^{\infty} f(\tau)g(t-\tau)d\tau $$&lt;h3 id="in-terms-of-matrix">In terms of Matrix
+&lt;/h3>&lt;ol>
+&lt;li>Lets say we have a 3x3 matrix A as a kernel&lt;/li>
+&lt;li>And We have a 5x5 matrix B as an image&lt;/li>
+&lt;li>With this kernel, we can slide it over the image&lt;/li>
+&lt;li>At each position, we multiply the kernel and then you would get a new matrix C which has the dimension of 4x4&lt;/li>
+&lt;li>But now what about the edges? We can pad the image with zeros to make the output matrix the same size as the input matrix&lt;/li>
+&lt;li>This is called &lt;strong>zero-padding&lt;/strong>&lt;/li>
+&lt;/ol>
+&lt;h3 id="image-processing">Image processing
+&lt;/h3>&lt;ul>
+&lt;li>f is the image&lt;/li>
+&lt;li>g is the kernel&lt;/li>
+&lt;li>y is the output image&lt;/li>
+&lt;li>In this application, Convolution is like telling how the near points would have an effect on the current point&lt;/li>
+&lt;li>In feature extraction, the kernel is the feature detector. It would compare the kernel with the image and by from the result you could tell how relevant the feature is to that part of the image.&lt;/li>
+&lt;/ul></description></item><item><title>Discretization</title><link>https://lyinandy0917.github.io/p/discretization/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/discretization/</guid><description>&lt;h1 id="discretization">Discretization
+&lt;/h1>&lt;h2 id="motivation">Motivation
+&lt;/h2>&lt;ul>
+&lt;li>&lt;strong>Q:&lt;/strong> Why do we need to discretize a continuous system?&lt;/li>
+&lt;li>&lt;strong>A:&lt;/strong> Because computers are discrete. They can only process discrete data.&lt;/li>
+&lt;li>Discretized systems have some benefits that continuous systems don&amp;rsquo;t have:
+&lt;ul>
+&lt;li>&lt;strong>Robustness:&lt;/strong> Discretized systems are more robust to noise and disturbances.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="explicit-form">Explicit Form
+&lt;/h2>&lt;p>$X_{k+1} = f(X_k, U_k)$
+&lt;strong>Q:&lt;/strong> Why is it called explicit form?&lt;br>
+&lt;strong>A:&lt;/strong> Because the next state is &lt;strong>explicitly determined by the current state&lt;/strong> and the control input.&lt;/p>
+&lt;p>$f$ is the system dynamics.&lt;/p>
+&lt;h3 id="methods">Methods
+&lt;/h3>&lt;h4 id="simplest-discretization---forward-euler">Simplest Discretization - Forward Euler
+&lt;/h4>$$
+h = \text{time step}
+$$&lt;ul>
+&lt;li>
+&lt;p>This method takes the slope at the current point and uses it to predict the next point. This method always overshoots.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>This method is so bad because this method adds energy to the system. The energy is not conserved. Should not use this method.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h4 id="runge-kutta-method">Runge-Kutta Method
+&lt;/h4>&lt;p>In most case, we use the Runge-Kutta method to discretize the system.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">runge_kutta&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">f&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">x&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">u&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">h&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">k1&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">f&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">u&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">k2&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">f&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">h&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="mi">2&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">k1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">u&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">k3&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">f&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">h&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="mi">2&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">k2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">u&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">k4&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">f&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">h&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">k3&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">u&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">x&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">h&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="mi">6&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">k1&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">k2&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">k3&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">k4&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="implicit-form">Implicit Form
+&lt;/h2>&lt;p>&lt;strong>Q:&lt;/strong> Why is it called implicit form?&lt;br>
+&lt;strong>A:&lt;/strong> Because the next state is implicitly determined by the current state and the control input. The equation is not directly solvable, and it would contain the next state.&lt;/p>
+&lt;p>$f_{explicit}(X_{k+1}, X_k, U_k) = 0$&lt;br>
+Since the equation is not directly solvable, we need to use numerical methods to solve it.
+Q: How do we know if we have come to a solution?
+A: We would define a residual function. If the residual function is zero (or very close to zero), we have come to a solution.&lt;/p>
+&lt;h3 id="methods-1">Methods
+&lt;/h3>&lt;h4 id="backward-euler">Backward Euler
+&lt;/h4>$$residual = x_k + \Delta t \cdot \dot{x}_{k+1} - x_{k+1} = 0 \quad \quad \text{Backward Euler}$$&lt;p>&lt;br>
+Q: How is this different from the forward Euler?
+A: In forward euler, we have the dynamics $f(x_k, u_k)$ at the current time step. In backward euler, we would make use of the dynamics $f(x_{k+1}, u_k)$ at the next time step.&lt;/p>
+&lt;p>In this method, the error is always proportional to the time step.&lt;/p>
+&lt;p>Q: Why is this method better than the forward Euler?
+A: While the forward Euler method always &lt;strong>overshoots&lt;/strong>, the backward Euler method always &lt;strong>undershoots&lt;/strong>. The backward Euler method is more stable than the forward Euler method.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">function implicit_integrator_solve(params::NamedTuple, dynamics::Function, implicit_integrator::Function, x1::Vector, dt::Real;tol = 1e-13, max_iters = 10)::Vector
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> # initialize guess
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> x2 = 1*x1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> for i = 1:max_iters
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> residual = implicit_integrator(params, dynamics, x1, x2, dt)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> # TODO: return x2 when the norm of the residual is below tol
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> if norm(residual) &amp;lt; tol
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> return x2
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> end
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> # Newton&amp;#39;s method
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> J = FD.jacobian(x -&amp;gt; implicit_integrator(params, dynamics, x1, x, dt), x2)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> x2 = x2 - J\residual
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> end
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> error(&amp;#34;implicit integrator solve failed&amp;#34;)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">end
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;strong>Explanation:&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>This function takes in the parameters, the dynamics, the implicit integrator (backward euler, RK4), the initial state, the time step, the tolerance, and the maximum number of iterations.&lt;/p>
+&lt;p>&lt;strong>Q:&lt;/strong> What does the maximum number of iterations affects?&lt;br>
+&lt;strong>A:&lt;/strong> In my opinion, with a easy solution, the result would converge quickly. However, with a more complex system, the result would take more iterations to converge.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>The function initializes the guess of the next state &lt;code>x2&lt;/code> to be the same as the current state &lt;code>x1&lt;/code>.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>At each iteration, it would check the residual of the implicit integrator. If the residual is below the tolerance, it would return the next state &lt;code>x2&lt;/code>. And this is the solution of that particular time step.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Quick Recap on Newton&amp;rsquo;s Method:&lt;/p>
+&lt;ul>
+&lt;li>Newton&amp;rsquo;s method is an iterative method to find the root of a function. It uses the tangent line to approximate the direction of the convergence and eventually find the root.&lt;/li>
+&lt;li>The formula is $x_{n+1} = x_n - \frac{f(x_n)}{f&amp;rsquo;(x_n)}$&lt;/li>
+&lt;li>The method would converge to the root if the initial guess is close to the root and the function is well-behaved.&lt;/li>
+&lt;li>Potential Problems
+&lt;ul>
+&lt;li>you can&amp;rsquo;t control how far the convergence moves at each time step because it only depends on the function.&lt;/li>
+&lt;li>To help with this, could ultilize the line search method to find the optimal step size.
+$$ x_{n+1} = x_n - \alpha \frac{f(x_n)}{f'(x_n)}$$&lt;/li>
+&lt;li>The $\alpha$ is the step size. It could be found by the line search method.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="simulation">Simulation
+&lt;/h3>&lt;p>To simulate the whole system/curve.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-julia" data-lang="julia">&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> &lt;span class="n">simulate_implicit&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">params&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">NamedTuple&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">dynamics&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Function&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">implicit_integrator&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Function&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">x0&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">dt&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Real&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">tf&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Real&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">tol&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">1e-13&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">t_vec&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="n">dt&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="n">tf&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">N&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">length&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">t_vec&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">X&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">zeros&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">length&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x0&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="n">N&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">X&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">x0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># TODO: do a forward simulation with the selected implicit integrator &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># hint: use your `implicit_integrator_solve` function&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="k">in&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="n">N&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">X&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">implicit_integrator_solve&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">params&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">dynamics&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">implicit_integrator&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">X&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">dt&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">X&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Now this would simulate each point in the curve. The &lt;code>implicit_integrator_solve&lt;/code> function would be used to solve the implicit equation at each time step.
+&lt;strong>Keep in mind this is still discrete.&lt;/strong>&lt;/p></description></item><item><title>Foundation</title><link>https://lyinandy0917.github.io/p/foundation/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/foundation/</guid><description>&lt;h2 id="controllability">Controllability
+&lt;/h2>&lt;h2 id="observability">Observability
+&lt;/h2>&lt;h2 id="stability">Stability
+&lt;/h2>&lt;h3 id="with-a-control-gain-k-how-to-check-stability">with a control gain K, how to check stability?
+&lt;/h3>&lt;ul>
+&lt;li>&lt;strong>Eigenvalues&lt;/strong> of the closed-loop system&lt;/li>
+&lt;/ul>
+&lt;ol>
+&lt;li>get the closed-loop system matrix $A_{cl} = A - BK$&lt;/li>
+&lt;li>check the eigenvalues of $A_{cl}$
+&lt;ul>
+&lt;li>if the system is in &lt;strong>continuous time&lt;/strong>, check the real part of the eigenvalues. If all the real parts are negative, the system is stable.&lt;/li>
+&lt;li>if the system is in &lt;strong>discrete time&lt;/strong>, check the magnitude of the eigenvalues. If all the magnitudes are less than 1, the system is stable.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>&lt;strong>Lyapunov&lt;/strong> function&lt;/li>
+&lt;/ul>
+&lt;ol>
+&lt;li>find a positive definite function V(x) that satisfies the following conditions
+&lt;ul>
+&lt;li>$V(0) = 0$&lt;/li>
+&lt;li>$V(x) &amp;gt; 0$ for all $x \neq 0$&lt;/li>
+&lt;li>$\dot{V}(x) &amp;lt; 0$ for all $x \neq 0$&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>if such a function exists, the system is stable&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>&lt;strong>Routh-Hurwitz&lt;/strong> criterion&lt;/li>
+&lt;/ul>
+&lt;ol>
+&lt;li>check the coefficients of the characteristic polynomial. Characteristic polynomial is the determinant of $sI - A_{cl}$&lt;/li>
+&lt;li>if all the coefficients are positive, the system is stable&lt;/li>
+&lt;li>if any of the coefficients are negative, the system is unstable&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>&lt;strong>BIBO&lt;/strong> stability&lt;/li>
+&lt;/ul>
+&lt;ol>
+&lt;li>check the transfer function of the system&lt;/li>
+&lt;li>if the transfer function is stable, the system is stable. The transfer function is stable if the poles are in the left half of the complex plane&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>&lt;strong>Additional Information&lt;/strong>
+what is the difference between Lyapunove stable, BIBO stable, norm stable, and asymptotically stable?&lt;/li>
+&lt;/ul>
+&lt;ol>
+&lt;li>&lt;strong>Lyapunov&lt;/strong> stable: the system is stable if the system is bounded.&lt;/li>
+&lt;li>&lt;strong>BIBO&lt;/strong> stable: the system is stable if the input is bounded&lt;/li>
+&lt;li>&lt;strong>norm&lt;/strong> stable: the system is stable if the norm of the system is bounded&lt;/li>
+&lt;li>&lt;strong>asymptotically&lt;/strong> stable: the system is stable if the system converges to a point&lt;/li>
+&lt;li>what does bounded mean? it means the system does not go to infinity.&lt;/li>
+&lt;/ol></description></item><item><title>FreeRTOS</title><link>https://lyinandy0917.github.io/p/freertos/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/freertos/</guid><description>&lt;h1 id="freertos">FreeRTOS
+&lt;/h1>&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>Q:&lt;/strong> Why would we need an RTOS?&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>A:&lt;/strong> Because we want to run multiple tasks concurrently.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Q:&lt;/strong> What is an RTOS?&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>A:&lt;/strong> An RTOS is an operating system that is designed to handle real-time tasks.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="example">Example
+&lt;/h2>&lt;p>we would create task and a queue. The task would send a message to the queue and the other task would receive the message from the queue.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-c" data-lang="c">&lt;span class="line">&lt;span class="cl">&lt;span class="n">For&lt;/span> &lt;span class="n">instance&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">```&lt;/span>&lt;span class="n">c&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">QueueHandle_t&lt;/span> &lt;span class="n">xQueue&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">void&lt;/span> &lt;span class="nf">setup&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">serial&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">begin&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">9600&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">xQueue&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nf">xQueueCreate&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">10&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="k">sizeof&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">xTaskCreate&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">task1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;Task1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">100&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">xTaskCreate&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">task2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;Task2&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">100&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">void&lt;/span> &lt;span class="nf">loop&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">vTaskStartScheduler&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">void&lt;/span> &lt;span class="nf">LedBlink&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">unsigned&lt;/span> &lt;span class="kt">char&lt;/span> &lt;span class="n">message&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">while&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">xQueueReceive&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">xQueue&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">portMAX_DELAY&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">message&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">digitalWrite&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">13&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">HIGH&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">delay&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">100&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">digitalWrite&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">13&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">LOW&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">delay&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">100&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">void&lt;/span> &lt;span class="nf">taskReceive&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">void&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">pvParameters&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">unsigned&lt;/span> &lt;span class="kt">char&lt;/span> &lt;span class="n">message&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">while&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">Serial&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">available&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">command&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Serial&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">read&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">command&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="sc">&amp;#39;A&amp;#39;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">message&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">5&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">xQueueSend&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">xQueue&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span> &lt;span class="k">else&lt;/span> &lt;span class="k">if&lt;/span> &lt;span class="n">command&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="sc">&amp;#39;B&amp;#39;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">message&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">xQueueSend&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">xQueue&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">message&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>Links</title><link>https://lyinandy0917.github.io/links/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/links/</guid><description>&lt;p>To use this feature, add &lt;code>links&lt;/code> section to frontmatter.&lt;/p>
+&lt;p>This page&amp;rsquo;s frontmatter:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">links&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">title&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">GitHub&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">GitHub is the world&amp;#39;s largest software development platform.&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">website&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">https://github.com&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">title&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TypeScript&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">website&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">https://www.typescriptlang.org&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ts-logo-128.jpg&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;code>image&lt;/code> field accepts both local and external images.&lt;/p></description></item><item><title>LQR Control</title><link>https://lyinandy0917.github.io/p/control/lqr/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/control/lqr/</guid><description>&lt;p>It&amp;rsquo;s a state feedback just like pole placement, but it&amp;rsquo;s optimal. It&amp;rsquo;s optimal because it minimizes a cost function.
+&lt;strong>why&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Linear:&lt;/strong> because the system is linear (which means needs to be linearized)&lt;/li>
+&lt;li>&lt;strong>Quadratic:&lt;/strong> because the cost function is quadratic&lt;/li>
+&lt;li>&lt;strong>Regulator:&lt;/strong> because the goal is to stabilize the system&lt;/li>
+&lt;/ul>
+&lt;h1 id="modeling">Modeling
+&lt;/h1>&lt;p>In LQR problems, having a linear model is a must.&lt;/p>
+&lt;p>The linear model might be from a nonlinear model that is linearized around an operating point.&lt;/p>
+&lt;p>And the building of this nonlinear model is ususally based on the lagrangian dynamics of the system.&lt;/p>
+&lt;h1 id="finite-horizon-lqr">Finite Horizon LQR
+&lt;/h1>&lt;ul>
+&lt;li>Why &amp;ldquo;&lt;strong>finite horizon&lt;/strong>&amp;rdquo;? &lt;strong>A:&lt;/strong> because the cost function is defined over a &lt;strong>finite time horizon&lt;/strong>&lt;/li>
+&lt;li>The goal is to reach a desired goal $x_g$ in finite time&lt;/li>
+&lt;li>When the desired goal is constant, the controller is a regulator&lt;/li>
+&lt;li>When the desired goal is time-varying, the controller is a tracker&lt;/li>
+&lt;li>In regulation problems, &lt;strong>feedback&lt;/strong> is enough to stabilize the system&lt;/li>
+&lt;li>In tracking problems, &lt;strong>feedforward&lt;/strong> is needed to stabilize the system&lt;/li>
+&lt;li>The &lt;strong>cost (cost-to-go)&lt;/strong> function is the sum of the state and control cost&lt;/li>
+&lt;/ul>
+$$
+J = \frac{1}{2} \sum_{k=0}^{N-1} [(x_k - x_g)^T Q (x_k - x_g) + u_k^T R u_k] + \frac{1}{2} (x_N - x_g)^T Q_f (x_N - x_g)
+$$&lt;p>
+$J$: cost function&lt;br>
+$N$: time horizon&lt;br>
+$Q$: state cost matrix&lt;br>
+$R$: control cost matrix$&lt;br>
+$Q_f$: terminal state cost matrix&lt;br>
+$u_k$: control at time k&lt;br>
+$x_k$: state at time k&lt;br>
+$x_g$: desired goal&lt;/p>
+&lt;h3 id="code-example">Code Example
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">numpy&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="nn">np&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">scipy&lt;/span> &lt;span class="kn">from&lt;/span> &lt;span class="nn">signal&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">linalg&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 1.39 1.55 20000 25854 1888.6 9.81 0.01&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Parameters for system dynamics&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">lr&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">1.39&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">lf&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">1.55&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Ca&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">20000&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Iz&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">25854&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">m&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">1888.6&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">g&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">9.81&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dt&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">0.01&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># System dynamics&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">A&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">array&lt;/span>&lt;span class="p">([[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">Ca&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">m&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">lr&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">Ca&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">m&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">Ca&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">lf&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">Ca&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">lr&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Iz&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">lf&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">Ca&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">lf&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">Ca&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">lr&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Iz&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">lf&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">]])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">B&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">array&lt;/span>&lt;span class="p">([[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">Ca&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">m&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">Ca&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">lf&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">Iz&lt;/span>&lt;span class="p">]])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">C&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">eye&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">4&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">D&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">zeros&lt;/span>&lt;span class="p">((&lt;/span>&lt;span class="mi">4&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># generate Q and R according to the size of A and B&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Q&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">eye&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">4&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">R&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">eye&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Discretize the system dynamics&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">system_cont&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">signal&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">StateSpace&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">A&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">B&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">C&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">D&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">system_disc&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">system_cont&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">to_discrete&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dt&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Ad&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Bd&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">system_disc&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">A&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">system_disc&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">B&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#solve for the P that optimizes the cost function using the discrete algebraic Riccati equation&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">P&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">linalg&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">solve_discrete_are&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Ad&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Bd&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Q&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">R&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">K&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">linalg&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">inv&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">R&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">Bd&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">T&lt;/span> &lt;span class="o">@&lt;/span> &lt;span class="n">P&lt;/span> &lt;span class="o">@&lt;/span> &lt;span class="n">Bd&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">@&lt;/span> &lt;span class="n">Bd&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">T&lt;/span> &lt;span class="o">@&lt;/span> &lt;span class="n">P&lt;/span> &lt;span class="o">@&lt;/span> &lt;span class="n">Ad&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">e1&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">x&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">x_g&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># x = [x, x_dot, y, y_dot] just for example&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">u&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">K&lt;/span> &lt;span class="o">@&lt;/span> &lt;span class="n">e1&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>All the code above is just to find the optimal control $u$ that minimizes the cost function $J$.
+The detail implementation of the Riccati equation would be shown below.&lt;/p>
+&lt;h2 id="dynamic-programming">Dynamic Programming
+&lt;/h2>&lt;p>Known&lt;/p>
+&lt;ul>
+&lt;li>The system dynamics A, B&lt;/li>
+&lt;li>The cost function J&lt;/li>
+&lt;li>The terminal cost $Q_f$&lt;/li>
+&lt;li>The time horizon N&lt;/li>
+&lt;/ul>
+&lt;h3 id="bruteforce">Bruteforce
+&lt;/h3>&lt;ul>
+&lt;li>Compute the cost-to-go for all possible states and controls&lt;/li>
+&lt;li>Choose the control that minimizes the cost-to-go = optimize the cost function&lt;/li>
+&lt;li>&lt;strong>Computational complex&lt;/strong> needs a lot of tuning&lt;/li>
+&lt;/ul>
+&lt;h3 id="learning">Learning
+&lt;/h3>&lt;ul>
+&lt;li>gradient descent the cost function&lt;/li>
+&lt;li>Flexibility in the cost function&lt;/li>
+&lt;/ul>
+&lt;h3 id="riccati">Riccati
+&lt;/h3>&lt;ul>
+&lt;li>Riccati is used to compute the optimal feedback gain matrix $K$&lt;/li>
+&lt;/ul>
+&lt;ol>
+&lt;li>introduce P. what is this P? P is solution to the Riccati equation, it&amp;rsquo;s added to simplify the cost function&lt;/li>
+&lt;li>now $J = x_0^T P x_0 - x_0^T P x_0 + \int_0^N (x^T Q x + u^T R u) dt$&lt;/li>
+&lt;li>By doing a trick called &lt;strong>completing the square&lt;/strong>, now we have
+$$
+J = x_0^T P x_0 + \int_0^N (x^T(A^T P + PA + Q - PBR^{-1}B^T P)x + (u+R^{-1}B^T P x)^T R (u+R^{-1}B^T P x)) dt
+$$&lt;/li>
+&lt;li>so now it&amp;rsquo;s easy to see that the optimal control is $u = -R^{-1}B^T P x$&lt;/li>
+&lt;li>Since $u = -Kx$, we can find K by $K = R^{-1}B^T P$&lt;/li>
+&lt;li>Now we can find P by solving the Riccati equation&lt;/li>
+&lt;li>The Riccati equation is $A^T P + PA - PBR^{-1}B^T P + Q = 0$&lt;br>
+$P = Q + A^T P A - A^T P (A-BK)$&lt;/li>
+&lt;li>Since this is a quadratic equation, there would be two possible solutions, one is stable and the other is unstable
+The stable solution is the one we are looking for.&lt;/li>
+&lt;/ol>
+$$
+\frac{\partial J}{\partial u} = 0 \\
+u^* = -[R+B^TPB]^{-1}B^TPA
+$$$$
+R + B^TPB > 0
+$$&lt;p>
+global minimum&lt;/p>
+&lt;p>&lt;strong>How it actually works&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-julia" data-lang="julia">&lt;span class="line">&lt;span class="cl">&lt;span class="n">P&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">zeros&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">N&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">K&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">zeros&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">m&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">N&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">P&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">N&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">.=&lt;/span> &lt;span class="n">Qn&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Backward Riccati recursion&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">for&lt;/span> &lt;span class="n">k&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">N&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">:-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="mi">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">K&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">k&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">.=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">R&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">B&lt;/span>&lt;span class="o">&amp;#39;*&lt;/span>&lt;span class="n">P&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">k&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">B&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">\&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">B&lt;/span>&lt;span class="o">&amp;#39;*&lt;/span>&lt;span class="n">P&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">k&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">A&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">P&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">k&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">.=&lt;/span> &lt;span class="n">Q&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">A&lt;/span>&lt;span class="o">&amp;#39;*&lt;/span>&lt;span class="n">P&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">k&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">A&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">B&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">K&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">k&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>Starting from the last time step, compute the optimal feedback gain matrix K and the solution to the Riccati equation P&lt;/li>
+&lt;li>Move backward in time and compute the optimal feedback gain matrix K and the solution to the Riccati equation P
+&lt;strong>Q:&lt;/strong> In Riccati is only one k is calculated, or is k dynamically changing?
+&lt;strong>A:&lt;/strong> k is changing, it&amp;rsquo;s a loop that goes from N-1 to 1&lt;/li>
+&lt;/ol>
+&lt;p>Every time step, we compute the optimal feedback gain matrix K and the solution to the Riccati equation P. We would put them in a matrix and do feedback policy for each time step control.&lt;/p>
+&lt;h2 id="comparison-with-pole-placement">Comparison with Pole Placement
+&lt;/h2>&lt;ul>
+&lt;li>Pole placement is a special case of LQR&lt;/li>
+&lt;li>The problem with pole placement is
+&lt;ul>
+&lt;li>You could only tune the poles and affect the transient response. You can&amp;rsquo;t tune the steady-state error&lt;/li>
+&lt;li>The transition from the response plot to the physcal system is not very translational. Which means while you could tune the pole to make the system more stable, the connection between the pole and the performance is not very clear.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>In LQR, you could tune the Q and R to directly modify the error and the control effort.&lt;/li>
+&lt;/ul>
+&lt;h1 id="infinite-horizon-lqr">Infinite Horizon LQR
+&lt;/h1>$$
+J = \sum_{k=0}^{\infty} [(x_k - x_g)^T Q (x_k - x_g) + u_k^T R u_k]
+$$&lt;p>
+The difference is that in infinite horizon LQR, we don&amp;rsquo;t have a clear terminal state. While in finite LQR, the context is usually to complete a task or to reach a goal, in infinite LQR, the context is usually to design a controller (with a proper K) that stabilizes the system.&lt;/p></description></item><item><title>Model Predictive Control</title><link>https://lyinandy0917.github.io/p/mpc/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/mpc/</guid><description>&lt;h1 id="model-predictive-control">Model Predictive Control
+&lt;/h1>&lt;p>While LQR works really well with a good model, but in reality there are a couple of things that would prevent us from getting good results:&lt;/p>
+&lt;ol>
+&lt;li>imperfect state estimation (sensors are noisy)&lt;/li>
+&lt;li>unmodeled dynamics (What if we don&amp;rsquo;t know the dynamics of the system?)&lt;/li>
+&lt;li>misalignment between the model and the real system (What if the model is not perfect?)&lt;/li>
+&lt;li>actuator constraints
+Q: what is an actuator?&lt;br>
+A: An actuator is a component of a machine that is responsible for moving and controlling a mechanism or system, for example by opening a valve. In simple terms, it is a &amp;ldquo;mover&amp;rdquo;.&lt;/li>
+&lt;/ol>
+&lt;p>All of these above leads to a &amp;ldquo;Sim to Real&amp;rdquo; gap.&lt;/p>
+&lt;h2 id="process">Process
+&lt;/h2>$$ J = \sum_{i=0}^{N-1} (x(k+i|k) - x_{ref}(k+i))^T Q (x(k+i|k) - x_{ref}(k+i)) + u(k+i|k)^T R u(k+i|k) + (x(k+N|k) - x_{ref}(k+N))^T Q_f (x(k+N|k) - x_{ref}(k+N)) $$&lt;ol>
+&lt;li>measure the state X at time k.&lt;/li>
+&lt;li>predict the state X at time k+1, k+2, &amp;hellip;, k+N.&lt;/li>
+&lt;li>calculate the control input U at time k, k+1, &amp;hellip;, k+N-1.
+&lt;ul>
+&lt;li>$$ x(k+1|k) = Ax(k|k) + Bu(k|k) $$&lt;/li>
+&lt;li>$$ x(k+2|k) = Ax(k+1|k) + Bu(k+1|k) $$&lt;/li>
+&lt;li>$$ x(k+3|k) = Ax(k+2|k) + Bu(k+2|k) $$&lt;/li>
+&lt;li>$$ X_k = [I, A, A^2, ..., A^N] X_0 + [B, AB, A^2B, ..., A^{N-1}B] U_k \\ = M X_k + C U_k $$&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Minimize the cost function J in the horzion (k, k+1, &amp;hellip;, k+N).&lt;/li>
+&lt;li>$$ J = X_k^T Q X_k + U_k^T R U_k + X_{N|k}^T Q_f X_{N|k} $$
+&lt;ul>
+&lt;li>From here, we still have two unknowns: X_k and U_k.&lt;/li>
+&lt;li>Plug in
+$$ X_K = M X_k + C U_k $$&lt;br>
+M and C are known based on A and B.&lt;br>
+At the end we would have
+$$ J = X_K^T G X_K + 2U_k^T E U_k + U_k^T H U_k $$
+The first term is the initial state and the rest is quadratic programming.
+$$
+G = M^T Q M\\
+E = M^T Q C\\
+H = C^T Q C + R\\
+Q = [Q, 0, ..., 0; 0, Q, ..., 0; ..., 0, 0, Q_f]\\
+R = [R, 0, ..., 0; 0, R, ..., 0; ..., 0, 0, R]\\
+$$&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Solve the optimization problem.&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-matlab" data-lang="matlab">&lt;span class="line">&lt;span class="cl">&lt;span class="c">% MPC&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">clear&lt;/span> &lt;span class="n">all&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">close&lt;/span> &lt;span class="n">all&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">clc&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">pkg&lt;/span> &lt;span class="n">load&lt;/span> &lt;span class="n">control&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">optim&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">% System dynamics&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">A&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span> &lt;span class="mf">0.1&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">n&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">size&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">A&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">B&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="mf">0.5&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">p&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">size&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">B&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">% Cost function&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Q&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">eye&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Qf&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">Q&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">R&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">eye&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">p&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">k&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="mi">100&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c">%simulation time&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">X_K&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">zeros&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">k&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">X_K&lt;/span>&lt;span class="p">(:,&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">U_K&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nb">zeros&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">p&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">k&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c">% Prediction horizon&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">N&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">[&lt;/span>&lt;span class="n">E&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">H&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">MPC_cost&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">A&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">B&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">Q&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">Qf&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">R&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">N&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">for&lt;/span> &lt;span class="n">k&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">k&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c">% Solve the optimization problem&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">U_K&lt;/span>&lt;span class="p">(:,&lt;/span>&lt;span class="n">k&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">prediction&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">X_K&lt;/span>&lt;span class="p">(:,&lt;/span>&lt;span class="n">k&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">E&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">H&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">N&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">p&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">X_K&lt;/span>&lt;span class="p">(:,&lt;/span>&lt;span class="n">k&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">A&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">X_K&lt;/span>&lt;span class="p">(:,&lt;/span>&lt;span class="n">k&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">B&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">U_K&lt;/span>&lt;span class="p">(:,&lt;/span>&lt;span class="n">k&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>Neural Networks</title><link>https://lyinandy0917.github.io/p/neuralnetwork/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/neuralnetwork/</guid><description>&lt;h1 id="neural-networks">Neural Networks
+&lt;/h1>&lt;ul>
+&lt;li>Regression&lt;/li>
+&lt;li>Classification
+&lt;ul>
+&lt;li>could also be done with SVMs&lt;/li>
+&lt;li>could also be done with decision trees&lt;/li>
+&lt;li>could also be done with logistic regression&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>So what we had done before (SVMs, decision trees, logistic regression), these are basically a single layer neural network with one percetron.&lt;/p>
+&lt;p>The essential goal in neural networks is &lt;strong>optimize the error&lt;/strong> by adjusting the weights and biases.&lt;/p>
+&lt;p>At the heart of neural network is the &lt;strong>perceptron.&lt;/strong> A neural network is essentially a collection of perceptrons put in series and parallel. Noted that we do not draw the bias in the diagram.&lt;/p>
+&lt;p>With a proper size of neural network, we can approximate any function.&lt;/p>
+&lt;p>In general, what happens in the hiddent neurons is not interpretable and the only thing we know is that they are trying minimize the error.&lt;/p>
+&lt;p>&lt;strong>Example:&lt;/strong>&lt;br>
+we have 3 features $x_1,x_2,x_3$ and we want to predict $y$, there for 3 weights $w_1,w_2,w_3$ and a bias $b$. Then we would have a activation function.&lt;/p>
+&lt;p>XOR problem:&lt;/p>
+&lt;ul>
+&lt;li>$x_1,x_2$ are the inputs&lt;/li>
+&lt;li>$y$ is the output&lt;/li>
+&lt;li>if both inputs are the same, then the output is 1&lt;/li>
+&lt;li>if the inputs are different, then the output is 0&lt;/li>
+&lt;/ul>
+&lt;h2 id="perceptron">Perceptron
+&lt;/h2>&lt;ul>
+&lt;li>The perceptron takes some inputs, weights them and fire a result(0/1).&lt;/li>
+&lt;li>It performs a dot product of the weights and the inputs, adds the bias, and then applies an activation function (such as a sigmoid function) to the result.
+$$ y = f(a) = f(W \cdot X)$$&lt;/li>
+&lt;/ul>
+$$ a_{1,1} = \sum_{i=1}^{n} w_{1,i}x_{0,i}$$&lt;p>
+It&amp;rsquo;s simply a dot product of the weights and the inputs.&lt;/p>
+&lt;h2 id="forward-propagation">Forward Propagation
+&lt;/h2>$$
+\begin{align}
+\vec{a_1} &amp;= \vec{W_1} \cdot \vec{x_0} \\
+\vec{x_1} &amp;= f(\vec{a_1}) \\
+\vec{a_2} &amp;= \vec{W_2} \cdot \vec{x_1} \\
+\vec{x_2} &amp;= f(\vec{a_2}) = f(\vec{W_2} \cdot \vec{x_1}) \\
+\vec{y} &amp;= f(\vec{W_3} \cdot \vec{x_2}) \\
+\end{align}
+$$&lt;p>
+where $f$ is the activation function.
+The chaining of perceptrons is constructed by this chainning effect (chain rule).&lt;/p>
+&lt;p>At the end, you would manually calculate the error and adjust the weights and biases so that the result best matches the ground truth.&lt;/p>
+&lt;h2 id="backpropagation">Backpropagation
+&lt;/h2>&lt;p>The key idea of neural network is to minimize a loss function through backpropagation.&lt;/p>
+&lt;h2 id="softmax">Softmax
+&lt;/h2>$$ \text{softmax}(x_i) = \frac{e^{x_i}}{\sum_{j=1}^{n} e^{x_j}}$$&lt;h2 id="define-a-neural-network-in-pytorch">Define a neural network in PyTorch
+&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">torch&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">torch.nn&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="nn">nn&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">class&lt;/span> &lt;span class="nc">MLP&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Module&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="fm">__init__&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">super&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">MLP&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="bp">self&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="fm">__init__&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">layers&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Sequential&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Linear&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">4&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ReLU&lt;/span>&lt;span class="p">(),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Linear&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">4&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ReLU&lt;/span>&lt;span class="p">(),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Linear&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="nf">forward&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">x&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">layers&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">model&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">MLP&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Even though in the code the bias term is not presented explicitly, it is still there by default (taken into account).&lt;/p>
+&lt;h2 id="for-example">For example
+&lt;/h2>$$
+f(x) = \frac{1}{1+e^{-k \cdot x}}
+$$&lt;p>
+where $k$ determines the shape or slope of the sigmoid function.&lt;/p>
+&lt;h2 id="activation-functions">Activation Functions
+&lt;/h2>&lt;ul>
+&lt;li>
+&lt;p>Sigmoid&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Tanh&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Step&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Softplus&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>swish&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>ReLU&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>sinc&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>softsign&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Linear (identity): it takes the input and returns the input. This is basically no activation function.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Step: Squashes the input to 0 or 1. It is not used in hidden layers.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="sigmod">Sigmod
+&lt;/h3>$$ f(x) = \frac{1}{1+e^{-x}}$$$$ f'(x) = f(x)(1-f(x))$$&lt;p>When the gradient goes to zero, it becomes problematic. This is called the &lt;strong>vanishing gradient problem.&lt;/strong>&lt;br>
+This is Undesirable for hidden layers.&lt;strong>WHY?&lt;/strong>&lt;/p>
+&lt;p>Why do these gradients matter?&lt;/p>
+&lt;ul>
+&lt;li>The only thing we trying to find is the weights and biases that minimize the error.&lt;/li>
+&lt;li>weak gradient slows the learning process.&lt;/li>
+&lt;li>A zero gradient would kill a neuron.&lt;/li>
+&lt;/ul>
+$$ \frac{\partial y}{\partial x} = \frac{\partial y}{\partial z} \frac{\partial z}{\partial x}$$&lt;h3 id="tanh">Tanh
+&lt;/h3>$$ f(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$$$$ f'(x) = 1 - f(x)^2$$&lt;p>
+Data is centered around 0. It is zero centered. It is better than the sigmoid function. Less &amp;ldquo;positive&amp;rdquo; and &amp;ldquo;negative&amp;rdquo; bias.
+Undesired for middle layers.&lt;/p>
+&lt;p>&lt;strong>ResNet:&lt;/strong> Residual Network&lt;/p>
+&lt;ul>
+&lt;li>It uses skip connections to avoid the vanishing gradient problem.&lt;/li>
+&lt;/ul>
+&lt;p>Q:&lt;/p>
+&lt;ul>
+&lt;li>Positive Bias&lt;/li>
+&lt;li>zero centered&lt;/li>
+&lt;li>why gradient matters&lt;/li>
+&lt;li>hwo does gradient contribute to the result&lt;/li>
+&lt;li>the chain rule?&lt;/li>
+&lt;li>What does the activation function do?&lt;/li>
+&lt;/ul>
+&lt;h2 id="relu">ReLu
+&lt;/h2>&lt;ul>
+&lt;li>Nowadays, you want to always start with ReLU. It is the most popular activation function.&lt;/li>
+&lt;li>But what if the input is negative? The gradient is zero. A solution is to use the leaky ReLU.&lt;/li>
+&lt;li>We are keep the negative part have a minimal slope but not zero.&lt;/li>
+&lt;li>In addition to that, instead of having the slope in the negative part to be a constant, we can make it a learnable parameter. This is called the Parametric ReLU.&lt;/li>
+&lt;/ul></description></item><item><title>Newton's Method</title><link>https://lyinandy0917.github.io/p/newtons-method/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/newtons-method/</guid><description>&lt;h1 id="newtons-method">Newton&amp;rsquo;s Method
+&lt;/h1>&lt;h2 id="problem-setup">Problem Setup
+&lt;/h2>&lt;p>Given a problem:
+Here we are going to solve some equality-constrained optimization problems with Newton&amp;rsquo;s method. We are given a problem&lt;/p>
+$$ \begin{align} \min_x \quad &amp; f(x) \\
+\text{st} \quad &amp; c(x) = 0
+\end{align}$$$$ \mathcal{L}(x,\lambda) = f(x) + \lambda ^T c(x), $$$$\begin{align}
+\nabla_x \mathcal{L} = \nabla_x f(x) + \bigg[ \frac{\partial c}{\partial x}\bigg] ^T \lambda &amp;= 0 \\
+c(x) &amp;= 0
+\end{align}$$&lt;p>Which is just a root-finding problem. To solve this, we are going to solve for a $z = [x^T,\lambda]^T$ that satisfies these KKT conditions.&lt;/p>
+&lt;h2 id="equality-constrained-optimization">Equality Constrained Optimization
+&lt;/h2>&lt;h3 id="full-newtons-method">Full Newton&amp;rsquo;s Method
+&lt;/h3>&lt;p>Lets say we have a curve function $r(z)$ that we want to find the root of. We can use Newton&amp;rsquo;s method to solve for when $r(z) = 0$. To do this, we specify &lt;code>res_fx(z)&lt;/code> as $r(z)$, and &lt;code>res_jac_fx(z)&lt;/code> as $\partial r/ \partial z$. So the decreasing process is described as follows:&lt;/p>
+$$
+r(z_{k+1}) = r(z_k) + \bigg[ \frac{\partial r}{\partial z} \bigg]
+$$&lt;p>The problem with this is that when the f is approaching zero, the slope or gradient would become really small, leading it to be slow to converge.&lt;/p>
+&lt;p>So we introduce a new variable $\Delta z$ to the equation, and we have the following:&lt;/p>
+$$
+r(z_{k+1}) = r(z_k) + \bigg[ \frac{\partial r}{\partial z} \bigg] \Delta z
+$$&lt;h4 id="newtons-method-with-a-linesearch">Newton&amp;rsquo;s Method with a Linesearch
+&lt;/h4>&lt;p>We use Newton&amp;rsquo;s method to solve for when $r(z) = 0$. To do this, we specify &lt;code>res_fx(z)&lt;/code> as $r(z)$, and &lt;code>res_jac_fx(z)&lt;/code> as $\partial r/ \partial z$. To calculate a Newton step, we do the following:&lt;/p>
+$$\Delta z = -\bigg[ \frac{\partial r}{\partial z} \bigg]^{-1} r(z_k)$$$$ \phi(z_k + \alpha \Delta z) &lt; \phi(z_k)$$&lt;p>
+Where $\phi$ is a &amp;ldquo;merit function&amp;rdquo;, or &lt;code>merit_fx(z)&lt;/code> in the code.&lt;/p>
+&lt;p>This is called the &amp;ldquo;Armijo rule&amp;rdquo;, and it is a sufficient decrease condition.&lt;br>
+In my understanding, &lt;strong>the Armiho rule is guranteeing that the line is decreasing.&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>Q:&lt;/strong> What does $\alpha$ really represent? By by decreasing alpha, what is the effect on the line search?
+&lt;strong>A:&lt;/strong> Basically for newton method, in decreasing, we use the slope of that point to find the next point. So by decreasing alpha, we are decreasing the step size.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-julia" data-lang="julia">&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> &lt;span class="n">linesearch&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Δz&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">merit_fx&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Function&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">max_ls_iters&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Float64&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">α&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">1.0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="n">max_ls_iters&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">merit_fx&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">α&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">Δz&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="n">merit_fx&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">α&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">α&lt;/span> &lt;span class="o">/=&lt;/span> &lt;span class="mf">2.0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">error&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;linesearch failed&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>This ensure a sufficient decrease in the merit function. If the merit function is not decreasing, we would decrease the step size by half and try again. The function fails when no matter how small the step size is, we can&amp;rsquo;t get a sufficient decrease.&lt;/p>
+&lt;p>Now we would throw the &lt;code>linesearch&lt;/code> function into the &lt;code>newton&lt;/code> function. The &lt;code>newton&lt;/code> function would calculate the Newton step and then use the &lt;code>linesearch&lt;/code> function to find the optimal step size.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-julia" data-lang="julia">&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> &lt;span class="n">newtons_method&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z0&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">res_fx&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Function&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">res_jac_fx&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Function&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">merit_fx&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Function&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">tol&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">1e-10&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">max_iters&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">50&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">verbose&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nb">false&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="kt">Float64&lt;/span>&lt;span class="p">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># - z0, initial guess &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># - res_fx, residual function &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># - res_jac_fx, Jacobian of residual function wrt z &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># - merit_fx, merit function for use in linesearch &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># optional arguments &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># - tol, tolerance for convergence. Return when norm(residual)&amp;lt;tol &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># - max iter, max # of iterations &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># return a vector of vectors containing the iterates &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># the last vector in this vector of vectors should be the approx. solution &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># return the history of guesses as a vector&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Z&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">z0&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="c"># Initialize with the initial guess&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="n">max_iters&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">r&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">res_fx&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">norm_r&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">norm&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">r&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">verbose&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;iter: &lt;/span>&lt;span class="si">$i&lt;/span>&lt;span class="s"> |r|: &lt;/span>&lt;span class="si">$norm_r&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">norm_r&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="n">tol&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">Z&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">J&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">res_jac_fx&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Δz&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">J&lt;/span> &lt;span class="o">\&lt;/span> &lt;span class="n">r&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">α&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">linesearch&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">Δz&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">merit_fx&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">max_ls_iters&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Z&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vcat&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Z&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">Z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="k">end&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">α&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">Δz&lt;/span>&lt;span class="p">])&lt;/span> &lt;span class="c"># this ensure that it includes the new guess as it also satisfies the merit function&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">verbose&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;α: &lt;/span>&lt;span class="si">$α&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">error&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Newton&amp;#39;s method did not converge&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Next we are going to use the newton method to solve the equality-constrained optimization problem. We are going to use the following functions:&lt;/p>
+&lt;p>First, let&amp;rsquo;s define the cost function and the constraint function.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-julia" data-lang="julia">&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> &lt;span class="n">cost&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Q&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="mf">1.65539&lt;/span> &lt;span class="mf">2.89376&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="mf">2.89376&lt;/span> &lt;span class="mf">6.51521&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">q&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="mf">0.5&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="o">&amp;#39;*&lt;/span>&lt;span class="n">Q&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">x&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">q&lt;/span>&lt;span class="o">&amp;#39;*&lt;/span>&lt;span class="n">x&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">exp&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mf">1.3&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mf">0.3&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="o">^&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> &lt;span class="n">constraint&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">norm&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mf">0.5&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Second we would define the constraint Jacobian and the Lagrangian.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-julia" data-lang="julia">&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> &lt;span class="n">constraint_jacobian&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Matrix&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># since `constraint` returns a scalar value, ForwardDiff &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># will only allow us to compute a gradient of this function &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">J&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">reshape&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">FD&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">gradient&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">constraint&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">x&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># J = FD.gradient(constraint, x)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># In general, the gradient is length(x)×1 as a column vector or&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># 1×length(x) as a row vector—depending on how you need it shaped.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># return reshape(J, 1, length(J)) could do this without loss of generality&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">J&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Now we would work to implement the KKT conditions.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-julia" data-lang="julia">&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> &lt;span class="n">kkt_conditions&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># TODO: return the KKT conditions&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">x&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="c"># x is the first two elements of z&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">λ&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="c"># λ is the third element of z&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># Since we are solving a equality-constrained optimization problem, the Z would be [x,λ]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># TODO: return the stationarity condition for the cost function&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># and the primal feasibility&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">grad_f&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ForwardDiff&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">gradient&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">cost&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">x&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">grad_g&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vec&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">constraint_jacobian&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">stationarity&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">grad_f&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">λ&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">grad_g&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">feasibility&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">constraint&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c">#error(&amp;#34;kkt not implemented&amp;#34;)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">vcat&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">stationarity&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">feasibility&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Because &lt;strong>those KKT conditions &lt;em>are&lt;/em> your residual vector \(r(z)\).&lt;/strong> In other words:&lt;/p>
+&lt;ol>
+&lt;li>
+$$
+\begin{align}
+\nabla_x \mathcal{L} = \nabla_x f(x) + \bigg[ \frac{\partial c}{\partial x}\bigg] ^T \lambda &amp;= 0 \\
+c(x) &amp;= 0
+\end{align}
+$$&lt;/li>
+&lt;li>
+$$
+r(z) = \begin{bmatrix}
+\nabla_x f(x) + \bigg[ \frac{\partial c}{\partial x}\bigg] ^T \lambda \\
+c(x)
+\end{bmatrix} = 0
+$$$$
+r(z_{k+1}) = r(z_k) + \bigg[ \frac{\partial r}{\partial z} \bigg] \Delta z \\
+\Delta z = -\bigg[ \frac{\partial r}{\partial z} \bigg]^{-1} r(z_k)
+$$&lt;p>
+So you could see we need the derivative of the residual function to compute the newton step $\Delta z$.&lt;/p>
+&lt;/li>
+&lt;li>
+$$\begin{bmatrix}
+\underbrace{\tfrac{\partial}{\partial x}\Bigl(\nabla f(x) + \Bigl[\tfrac{\partial c}{\partial x}(x)\Bigr]^T \,\lambda\Bigr)}_{\text{2×2 block, call it }A}
+&amp;
+\underbrace{\tfrac{\partial}{\partial \lambda}\Bigl(\nabla f(x) + \Bigl[\tfrac{\partial c}{\partial x}(x)\Bigr]^T \,\lambda\Bigr)}_{\text{2×1 block, call it }b}
+\\[8pt]
+\underbrace{\tfrac{\partial}{\partial x}\,c(x)}_{\text{1×2 block, call it }c}
+&amp;
+\underbrace{\tfrac{\partial}{\partial \lambda}\,c(x)}_{\text{(1×1) block, typically }0}
+\end{bmatrix}$$&lt;/li>
+&lt;/ol>
+&lt;p>Putting it all together:&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-julia" data-lang="julia">&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> &lt;span class="n">fn_kkt_jac&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Matrix&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># TODO: return full Newton Jacobian of kkt conditions wrt z&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">x&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">λ&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># TODO: return full Newton jacobian with a 1e-3 regularizer&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># to ensure the matrix is invertible&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># we need the A, b, c, d&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">A&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ForwardDiff&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">jacobian&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="n">kkt_conditions&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">b&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ForwardDiff&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">jacobian&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="n">kkt_conditions&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">c&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ForwardDiff&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">jacobian&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="n">kkt_conditions&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">d&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ForwardDiff&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">jacobian&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span> &lt;span class="o">-&amp;gt;&lt;/span> &lt;span class="n">kkt_conditions&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">J&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vcat&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">hcat&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">A&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">b&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">hcat&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">c&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">d&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mf">1e-3&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">I&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">J&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Now let&amp;rsquo;s make a small modification to the &lt;code>newtons_method&lt;/code> function to use the &lt;code>gn_kkt_jac&lt;/code> function.&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-julia" data-lang="julia">&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> &lt;span class="n">gn_kkt_jac&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Vector&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="kt">Matrix&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># TODO: return Gauss-Newton Jacobian of kkt conditions wrt z &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">x&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">λ&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">z&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># TODO: return Gauss-Newton jacobian with a 1e-3 regularizer&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c">#error(&amp;#34;gn_kkt_jac not implemented&amp;#34;)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># Compute the Hessian of cost.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">H_f&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FD&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">hessian&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">cost&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">x&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># Compute the gradient of the constraint.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">grad_g&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">vec&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">constraint_jacobian&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># For the Gauss-Newton approximation we use H_f alone.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">A&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">H_f&lt;/span> &lt;span class="c"># instead of H_f + λ * H_g.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">b&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">grad_g&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">c&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">grad_g&lt;/span>&lt;span class="o">&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">d&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">0.0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># Build the approximate Jacobian.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">J&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">A&lt;/span> &lt;span class="n">b&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">c&lt;/span> &lt;span class="n">d&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c"># Add a 1e-3 regularizer to the diagonal.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">J&lt;/span> &lt;span class="o">-=&lt;/span> &lt;span class="mf">1e-3&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">I&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">J&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>When the constraints is almost satisfied, the Gauss-Newton method would be more efficient than the full Newton method.&lt;/p></description></item><item><title>Path Finding</title><link>https://lyinandy0917.github.io/p/path-finding/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/path-finding/</guid><description>&lt;h1 id="path-finding">Path Finding
+&lt;/h1>&lt;h2 id="a-algorithm">A* Algorithm
+&lt;/h2>&lt;ul>
+&lt;li>A star is a heuristic search algorithm that finds the shortest path between the start node and the end node.&lt;/li>
+&lt;li>&lt;strong>What is a heuristic?&lt;/strong> A heuristic is like a rule of thumb. It could be a guess, an estimate, or a rule that helps you find a solution.&lt;/li>
+&lt;/ul>
+&lt;h3 id="an-example">An Example
+&lt;/h3>&lt;ul>
+&lt;li>Let&amp;rsquo;s say you are a mouse in a maze. The heuristic would be how strong the smell of cheese is. The stronger the smell, the closer you are to the cheese. The heuristic is the smell of the cheese.&lt;/li>
+&lt;li>So that the P would be determined by the distance and the smell of the cheese. The distance is the cost of the path, and the smell of the cheese is the heuristic.&lt;/li>
+&lt;li>So each node would have a heuristic value and between the node are the cost of the path.&lt;/li>
+&lt;li>The A* algorithm would find the path with the minimum cost.&lt;/li>
+&lt;/ul>
+&lt;h3 id="code-example">Code Example
+&lt;/h3>&lt;p>First we need to define some helper functions to calculate the heuristic and the cost of the path.&lt;/p>
+&lt;ol>
+&lt;li>We would start by defining the node class.&lt;br>
+&lt;strong>What is a node in A star algorithm?&lt;/strong> A node is a point in the grid. It has a position, a parent, and a cost.&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">class&lt;/span> &lt;span class="nc">Node&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">object&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="fm">__init__&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">pose&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">pose&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">array&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">pose&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">x&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">pose&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">y&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">pose&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">g_value&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="c1"># cost from start node to current node&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">h_value&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="c1"># heuristic value&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">f_value&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="c1"># f = g + h &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">parent&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">None&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="fm">__lt__&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">other&lt;/span>&lt;span class="p">):&lt;/span> &lt;span class="c1"># use to compare two nodes: less than&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">f_value&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="n">other&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">f_value&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="fm">__eq__&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">other&lt;/span>&lt;span class="p">):&lt;/span> &lt;span class="c1"># use to compare two nodes: equal&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">pose&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="n">other&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">pose&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">all&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="2">
+&lt;li>Now we could start to craft the A* class.&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">class&lt;/span> &lt;span class="nc">AStar&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">object&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="fm">__init__&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">map_path&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">map_path&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">map_path&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">map&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">load_map&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">map_path&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">astype&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">int&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">map&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">resolution&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">0.05&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">y_dim&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">map&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">shape&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">x_dim&lt;/span> &lt;span class="o">=&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">map&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">shape&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s1">&amp;#39;map size (&lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">x_dim&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s1">, &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">y_dim&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s1">)&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="nf">load_map&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">path&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">load&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">path&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="nf">reset_map&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">map&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">load_map&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">map_path&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>The &lt;code>load_map&lt;/code> function is used to load the map from the file. The &lt;code>reset_map&lt;/code> function is used to reset the map to the original state. why do we need to reset the map? Because we need to find the path multiple times, and we need to reset the map to the original state every time we find a new path.&lt;/p>
+&lt;ol start="3">
+&lt;li>Now we would define the important parts of the euclidean distance and the cost of the path.&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">class&lt;/span> &lt;span class="nc">AStar&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">object&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s1">&amp;#39;&amp;#39;&amp;#39;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s1"> &amp;#39;&amp;#39;&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="nf">euclidean_distance&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">start&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">end&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">linalg&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">norm&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">start&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">pose&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">end&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">pose&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># this is euclidean distance therefore it&amp;#39;s the straight line distance&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="nf">get_successor&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">node&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> :param node: A Node data structure
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> :return: a list of Nodes containing successors of current Node
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">successor_list&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">x&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">y&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">node&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">pose&lt;/span> &lt;span class="c1"># Get x, y coordinates of the current node&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">pose_list&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[[&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">y&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">y&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">y&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">y&lt;/span>&lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">[&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">y&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">y&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">y&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">y&lt;/span>&lt;span class="p">]]&lt;/span> &lt;span class="c1"># Pose list contains 8 neighbors of the current node&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="n">pose_&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="n">pose_list&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">x_&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">y_&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">pose_&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">x_&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">y_dim&lt;/span> &lt;span class="ow">and&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">y_&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">x_dim&lt;/span> &lt;span class="ow">and&lt;/span> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">map&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">x_&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">y_&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="c1"># Eliminate nodes that are out of bound, and nodes that are obstacles if the value is 0 then it&amp;#39;s not an obstacle&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">map&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">x_&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">y_&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">successor_list&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">append&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Node&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">pose_&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">successor_list&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol start="4">
+&lt;li>Now we would define the calculate the path function.
+Before that, there are two useful functions: &lt;code>heappush&lt;/code> and &lt;code>heappop&lt;/code>.
+&lt;ul>
+&lt;li>&lt;code>heappush&lt;/code> is used to push the node into the heap.&lt;/li>
+&lt;li>&lt;code>heappop&lt;/code> is used to pop the node with the lowest f value from the heap.&lt;/li>
+&lt;li>The heap is a data structure that allows you to push and pop the node with the lowest f value in O(1) time.&lt;/li>
+&lt;li>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">class&lt;/span> &lt;span class="nc">AStar&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">object&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s1">&amp;#39;&amp;#39;&amp;#39;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s1"> &amp;#39;&amp;#39;&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="nf">calculate_path&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">node&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> :param node: A Node data structure
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> :return: a list with shape (n, 2) containing n path point
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">path_ind&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">path_ind&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">append&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">node&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">pose&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">tolist&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">current&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">node&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">while&lt;/span> &lt;span class="n">current&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">parent&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">current&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">current&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">parent&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">path_ind&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">append&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">current&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">pose&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">tolist&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">path_ind&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reverse&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s1">&amp;#39;path length &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="nb">len&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">path_ind&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s1">&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># the number of nodes in the path&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">path&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nb">list&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">path_ind&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">path&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>It would return the path in the form of a list of nodes.&lt;/p>
+&lt;ol>
+&lt;li>We would define the plan function.&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;span class="lnt">46
+&lt;/span>&lt;span class="lnt">47
+&lt;/span>&lt;span class="lnt">48
+&lt;/span>&lt;span class="lnt">49
+&lt;/span>&lt;span class="lnt">50
+&lt;/span>&lt;span class="lnt">51
+&lt;/span>&lt;span class="lnt">52
+&lt;/span>&lt;span class="lnt">53
+&lt;/span>&lt;span class="lnt">54
+&lt;/span>&lt;span class="lnt">55
+&lt;/span>&lt;span class="lnt">56
+&lt;/span>&lt;span class="lnt">57
+&lt;/span>&lt;span class="lnt">58
+&lt;/span>&lt;span class="lnt">59
+&lt;/span>&lt;span class="lnt">60
+&lt;/span>&lt;span class="lnt">61
+&lt;/span>&lt;span class="lnt">62
+&lt;/span>&lt;span class="lnt">63
+&lt;/span>&lt;span class="lnt">64
+&lt;/span>&lt;span class="lnt">65
+&lt;/span>&lt;span class="lnt">66
+&lt;/span>&lt;span class="lnt">67
+&lt;/span>&lt;span class="lnt">68
+&lt;/span>&lt;span class="lnt">69
+&lt;/span>&lt;span class="lnt">70
+&lt;/span>&lt;span class="lnt">71
+&lt;/span>&lt;span class="lnt">72
+&lt;/span>&lt;span class="lnt">73
+&lt;/span>&lt;span class="lnt">74
+&lt;/span>&lt;span class="lnt">75
+&lt;/span>&lt;span class="lnt">76
+&lt;/span>&lt;span class="lnt">77
+&lt;/span>&lt;span class="lnt">78
+&lt;/span>&lt;span class="lnt">79
+&lt;/span>&lt;span class="lnt">80
+&lt;/span>&lt;span class="lnt">81
+&lt;/span>&lt;span class="lnt">82
+&lt;/span>&lt;span class="lnt">83
+&lt;/span>&lt;span class="lnt">84
+&lt;/span>&lt;span class="lnt">85
+&lt;/span>&lt;span class="lnt">86
+&lt;/span>&lt;span class="lnt">87
+&lt;/span>&lt;span class="lnt">88
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">class&lt;/span> &lt;span class="nc">AStar&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">object&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s1">&amp;#39;&amp;#39;&amp;#39;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s1"> &amp;#39;&amp;#39;&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="nf">plan&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">start_ind&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">goal_ind&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> TODO:
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> Fill in the missing lines in the plan function
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> @param start_ind : [x, y] represents coordinates in webots world
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> @param goal_ind : [x, y] represents coordinates in webots world
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> @return path : a list with shape (n, 2) containing n path point
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># initialize start node and goal node class&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">start_node&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Node&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">start_ind&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">goal_node&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Node&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">goal_ind&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> TODO:
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> calculate h and f value of start_node
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> (1) h can be computed by calling the heuristic method
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> (2) f = g + h
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Calculate initial h and f values for start_node&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">start_node&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">h_value&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">heuristic&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">start_node&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">goal_node&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1"># from start to goal&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">start_node&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">f_value&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">start_node&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">g_value&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">start_node&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">h_value&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Reset map and initialize open and closed lists&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reset_map&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">open_list&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">closed_list&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">heappush&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">open_list&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">start_node&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">#why do we need to push the start node into the open list? Because we need to start from the start node. but isn&amp;#39;t open list for unvisited nodes? Yes, but we need to start from the start node.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Reset map&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reset_map&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Initially, only the start node is known.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># This is usually implemented as a min-heap or priority queue rather than a hash-set.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Please refer to https://docs.python.org/3/library/heapq.html for more details about heap data structure&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">open_list&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[]&lt;/span> &lt;span class="c1"># open list is a list of nodes that are not yet visited&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">closed_list&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">array&lt;/span>&lt;span class="p">([])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">heappush&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">open_list&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">start_node&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># while open_list is not empty&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">while&lt;/span> &lt;span class="nb">len&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">open_list&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> TODO:
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> get the current node and add it to the closed list
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Current is the node in open_list that has the lowest f value&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># This operation can occur in O(1) time if open_list is a min-heap or a priority queue&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Get the node with the lowest f value from open_list&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">current&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">heappop&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">open_list&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">closed_list&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">append&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">closed_list&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">current&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">map&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">current&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">current&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">y&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># if current is goal_node: calculate the path by passing through the current node&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># exit the loop by returning the path&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">current&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="n">goal_node&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;reach goal&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">calculate_path&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">current&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="n">successor&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get_successor&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">current&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;&amp;#34;&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> TODO:
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> 1. pass current node as parent of successor node
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> 2. calculate g, h, and f value of successor node
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> (1) d(current, successor) is the weight of the edge from current to successor
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> (2) g(successor) = g(current) + d(current, successor)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> (3) h(successor) can be computed by calling the heuristic method
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> (4) f(successor) = g(successor) + h(successor)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2"> &amp;#34;&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Set current node as the parent of the successor&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">successor&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">parent&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">current&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Calculate g, h, and f values for the successor&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">distance&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">linalg&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">norm&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">successor&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">pose&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">current&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">pose&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">successor&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">g_value&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">current&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">g_value&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">distance&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">successor&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">h_value&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">heuristic&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">successor&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">goal_node&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">successor&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">f_value&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">successor&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">g_value&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">successor&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">h_value&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">heappush&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">open_list&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">successor&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># If the loop is exited without return any path&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># Path is not found&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;path not found&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="kc">None&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>PID Control</title><link>https://lyinandy0917.github.io/p/pid-control/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/pid-control/</guid><description>&lt;h1 id="pid-control">PID Control
+&lt;/h1></description></item><item><title>ROS</title><link>https://lyinandy0917.github.io/p/ros/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/ros/</guid><description>&lt;img src="https://lyinandy0917.github.io/p/ros/ROS.png" alt="Featured image of post ROS" />&lt;h1 id="ros">ROS
+&lt;/h1>&lt;h2 id="intro">Intro
+&lt;/h2>&lt;p>Q: why do we need ROS?&lt;br>
+A: ROS is a framework for writing robot software. It is a collection of &lt;strong>tools, libraries, and conventions&lt;/strong> that aim to simplify the task of creating complex. Ros has provided a high efficient way to communicate between modules, algorithms and drivers.&lt;/p>
+&lt;h2 id="operating-system---linux">Operating System - Linux
+&lt;/h2>&lt;p>Q: Why linux?&lt;br>
+A: ROS has been very mature on Linux. It is the most popular operating system for robots.&lt;/p>
+&lt;ul>
+&lt;li>Operating system manages the hardware and software resources of the system.&lt;/li>
+&lt;li>It is the most fundamental software that runs on a computer.&lt;/li>
+&lt;li>Linux is the most popular operating system for robots.&lt;/li>
+&lt;li>一般我们说的linux是指他的发行版&lt;/li>
+&lt;/ul>
+&lt;h3 id="installation-of-linux">Installation of Linux
+&lt;/h3>&lt;ol>
+&lt;li>Download the Ubuntu LTS version from the official website (An iso file).&lt;/li>
+&lt;li>Download VMware Workstation Pro from the official website.&lt;/li>
+&lt;li>Open VMware Workstation Pro and create a new virtual machine.&lt;/li>
+&lt;li>Assign &amp;gt;2GB RAM and &amp;gt;20GB storage. Choose the installed ISO file.&lt;/li>
+&lt;li>Install Ubuntu on the virtual machine.&lt;/li>
+&lt;li>Follow the instructions to install Ubuntu.&lt;/li>
+&lt;li>Download the VMware tools
+&lt;ol>
+&lt;li>Open the terminal&lt;/li>
+&lt;li>&lt;code>sudo apt upgrade&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo apt install open-vm-tools-desktop -y&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo reboot&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="simple-commands">Simple Commands
+&lt;/h3>&lt;ol>
+&lt;li>&lt;code>ls&lt;/code> - list files and directories&lt;/li>
+&lt;li>&lt;code>cd&lt;/code> - change directory&lt;/li>
+&lt;li>&lt;code>pwd&lt;/code> - print working directory&lt;/li>
+&lt;li>&lt;code>mkdir&lt;/code> - make directory&lt;/li>
+&lt;li>&lt;code>rm&lt;/code> - remove file or directory&lt;/li>
+&lt;li>&lt;code>rmdir&lt;/code> - remove directory&lt;/li>
+&lt;li>To open the terminal, press &lt;code>Ctrl + Alt + T&lt;/code>&lt;/li>
+&lt;li>&amp;ndash;help - to get help on a command&lt;/li>
+&lt;li>&lt;code>mv&lt;/code> - move files or directories&lt;/li>
+&lt;li>&lt;code>cp&lt;/code> - copy files or directories&lt;/li>
+&lt;li>&lt;code>touch&lt;/code> - create a file&lt;/li>
+&lt;li>&lt;code>sudo&lt;/code> - run a command as superuser&lt;/li>
+&lt;/ol>
+&lt;h3 id="install-g-and-python">Install g++ and python
+&lt;/h3>&lt;ol>
+&lt;li>
+&lt;p>&lt;code>sudo apt-get install g++&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>To compile a C++ program, use &lt;code>g++ filename.cpp -o outputname&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Python3 is already installed on Ubuntu.&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="install-ros2">Install ROS2
+&lt;/h3>&lt;ol>
+&lt;li>Set Locale
+&lt;ol>
+&lt;li>&lt;code>sudo apt update&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo apt install locales&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo locale-gen en_US en_US.UTF-8&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8&lt;/code>&lt;/li>
+&lt;li>&lt;code>export LANG=en_US.UTF-8&lt;/code>&lt;/li>
+&lt;li>&lt;code>locale&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>Enable ROS2 repository
+&lt;ol>
+&lt;li>&lt;code>sudo apt install software-properties-common&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo add-apt-repository universe&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo apt update &amp;amp;&amp;amp; sudo apt install curl -y&lt;/code>&lt;/li>
+&lt;li>&lt;code>curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg&lt;/code>&lt;/li>
+&lt;li>&lt;code>echo &amp;quot;deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release; echo &amp;quot;$UBUNTU_CODENAME&amp;quot;) main&amp;quot; | sudo tee /etc/apt/sources.list.d/ros2.list &amp;gt; /dev/null&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>Install development tools and ROS tools
+&lt;ol>
+&lt;li>&lt;code>sudo apt update &amp;amp;&amp;amp; sudo apt install ros-dev-tools&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>Install ROS2
+&lt;ol>
+&lt;li>&lt;code>sudo apt update &amp;amp;&amp;amp; sudo apt upgrade&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo apt install ros-jazzy-desktop&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo apt install ros-jazzy-ros-base&lt;/code>&lt;br>
+&lt;strong>Common Bugs refer to&lt;/strong> &lt;a class="link" href="https://blog.csdn.net/weixin_46445090/article/details/144812129" target="_blank" rel="noopener"
+>BUG FIX&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="ros2-commands">ROS2 Commands
+&lt;/h3>&lt;ol>
+&lt;li>&lt;code>ros2 run package_name executable_name&lt;/code> - run a ROS2 node&lt;/li>
+&lt;li>&lt;code>ros2 node list&lt;/code> - list all the nodes&lt;/li>
+&lt;li>&lt;code>ros2 node info /node_name&lt;/code> - get information about a node&lt;/li>
+&lt;li>&lt;code>ros2 topic list&lt;/code> - list all the topics&lt;/li>
+&lt;li>&lt;code>ros2 topic echo /topic_name&lt;/code> - echo the messages on a topic&lt;/li>
+&lt;li>&lt;code>ros2 topic pub --rate 1 /target/cmd_vel geometry_msgs/Twist '{linear: {x: 0.1}, angular: {z: 0.1}}'&lt;/code> - publish a message on a topic&lt;/li>
+&lt;li>&lt;code>ros2 bag record /target/cmd_vel&lt;/code> - record messages on a topic&lt;/li>
+&lt;li>&lt;code>ros2 bag play /target/cmd_vel&lt;/code> - play messages from a bag file This would be useful for record a behavior and replay it later for other experiments.&lt;/li>
+&lt;/ol>
+&lt;h3 id="vscode">VSCode
+&lt;/h3>&lt;ol>
+&lt;li>Install VSCode&lt;/li>
+&lt;li>Install some extensions
+&lt;ol>
+&lt;li>C/C++&lt;/li>
+&lt;li>Python&lt;/li>
+&lt;li>ROS&lt;/li>
+&lt;li>Jupyter&lt;/li>
+&lt;li>Cmake&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="gazebo">Gazebo
+&lt;/h3>&lt;ol>
+&lt;li>Gazebo is a 3D simulator that allows you to test your robot in a virtual environment.&lt;/li>
+&lt;li>&lt;code>sudo apt-get install ros-${ROS_DISTRO}-ros-gz&lt;/code>
+Refer to &lt;a class="link" href="https://gazebosim.org/docs/latest/ros_installation/" target="_blank" rel="noopener"
+>Gazebo Installation for corresponding ROS&lt;/a>&lt;/li>
+&lt;/ol></description></item><item><title>Search</title><link>https://lyinandy0917.github.io/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/search/</guid><description/></item><item><title>SVM</title><link>https://lyinandy0917.github.io/p/svm/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/svm/</guid><description>&lt;h2 id="svm">SVM
+&lt;/h2>&lt;p>&lt;strong>Direct Approach:&lt;/strong> finding the hyperplane that best separates the classes (furthest from the nearest data points)&lt;/p>
+$$
+margin (W,b) = min_{i} \frac{y^{(i)}(W^T x^{(i)} + b)}{||W||}
+$$</description></item><item><title>Unconstrained Optimization</title><link>https://lyinandy0917.github.io/p/unconstrained-optimization/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/unconstrained-optimization/</guid><description>&lt;h1 id="unconstrained-optimization">Unconstrained Optimization
+&lt;/h1>$$ \min_x \quad f(x) $$&lt;p>
+Assumption:&lt;/p>
+&lt;ul>
+&lt;li>$f(x)$ is twice differentiable&lt;/li>
+&lt;li>$f(x)$ is convex. The hessian of the function is positive semi-definite. (This means the function is bowl-shaped)&lt;/li>
+&lt;li>optimal solution $x^*$ exists&lt;/li>
+&lt;li>Optimal condition $\nabla f(x^*) = 0$. This mean the gradient of the function at the optimal solution is zero.&lt;/li>
+&lt;/ul>
+&lt;h2 id="convex-quadratic-function">Convex Quadratic Function
+&lt;/h2>$$ \begin{align} \min_x \quad &amp; \frac{1}{2} x^T P x + q^T x + r \\
+\quad &amp; \nabla f(x)= P x + q = 0
+\end{align} $$&lt;ul>
+&lt;li>P is the hessian of the function&lt;/li>
+&lt;li>q is the gradient of the function&lt;/li>
+&lt;li>r is the constant term&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Notation Explained&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>P is the hessian of the function&lt;/li>
+&lt;li>q is the gradient of the function&lt;/li>
+&lt;li>r is the constant term&lt;/li>
+&lt;/ul>
+$$ f(x) = f(x_0) + \nabla f(x_0)^T (x - x_0) + \frac{1}{2} (x - x_0)^T \nabla^2 f(x_0) (x - x_0) $$&lt;p>We could solve this problem by setting the gradient to zero.
+&lt;strong>Q:&lt;/strong> Why do we set the gradient to zero?
+&lt;strong>A:&lt;/strong> Because the gradient is zero at the optimal solution.&lt;/p>
+&lt;h2 id="method">Method:
+&lt;/h2>&lt;h3 id="gradient-descent">Gradient Descent
+&lt;/h3>$$ x_{k+1} = x_k + t_k \Delta x_k $$$$ \Delta x_k = - \nabla f(x_k) $$&lt;ol>
+&lt;li>choose a starting point $x_0$&lt;/li>
+&lt;li>repeat until convergence:
+&lt;ul>
+&lt;li>calculate the gradient $\nabla f(x_k)$&lt;/li>
+&lt;li>line search: find the step size $t_k$ that minimizes $f(x_k + t_k \Delta x_k)$&lt;/li>
+&lt;li>update $x_{k+1} = x_k + t_k \Delta x_k$&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Stop when L2 norm of the gradient is less than a threshold.
+$$ \nabla f(x_k) &lt; \text{threshold} $$&lt;/li>
+&lt;/ol></description></item></channel></rss>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Machine Learning on ANDY尹樑</title><link>https://lyinandy0917.github.io/categories/machine-learning/</link><description>Recent content in Machine Learning on ANDY尹樑</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://lyinandy0917.github.io/categories/machine-learning/index.xml" rel="self" type="application/rss+xml"/><item><title>Neural Networks</title><link>https://lyinandy0917.github.io/p/neuralnetwork/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/neuralnetwork/</guid><description>&lt;h1 id="neural-networks">Neural Networks
+&lt;/h1>&lt;ul>
+&lt;li>Regression&lt;/li>
+&lt;li>Classification
+&lt;ul>
+&lt;li>could also be done with SVMs&lt;/li>
+&lt;li>could also be done with decision trees&lt;/li>
+&lt;li>could also be done with logistic regression&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>So what we had done before (SVMs, decision trees, logistic regression), these are basically a single layer neural network with one percetron.&lt;/p>
+&lt;p>The essential goal in neural networks is &lt;strong>optimize the error&lt;/strong> by adjusting the weights and biases.&lt;/p>
+&lt;p>At the heart of neural network is the &lt;strong>perceptron.&lt;/strong> A neural network is essentially a collection of perceptrons put in series and parallel. Noted that we do not draw the bias in the diagram.&lt;/p>
+&lt;p>With a proper size of neural network, we can approximate any function.&lt;/p>
+&lt;p>In general, what happens in the hiddent neurons is not interpretable and the only thing we know is that they are trying minimize the error.&lt;/p>
+&lt;p>&lt;strong>Example:&lt;/strong>&lt;br>
+we have 3 features $x_1,x_2,x_3$ and we want to predict $y$, there for 3 weights $w_1,w_2,w_3$ and a bias $b$. Then we would have a activation function.&lt;/p>
+&lt;p>XOR problem:&lt;/p>
+&lt;ul>
+&lt;li>$x_1,x_2$ are the inputs&lt;/li>
+&lt;li>$y$ is the output&lt;/li>
+&lt;li>if both inputs are the same, then the output is 1&lt;/li>
+&lt;li>if the inputs are different, then the output is 0&lt;/li>
+&lt;/ul>
+&lt;h2 id="perceptron">Perceptron
+&lt;/h2>&lt;ul>
+&lt;li>The perceptron takes some inputs, weights them and fire a result(0/1).&lt;/li>
+&lt;li>It performs a dot product of the weights and the inputs, adds the bias, and then applies an activation function (such as a sigmoid function) to the result.
+$$ y = f(a) = f(W \cdot X)$$&lt;/li>
+&lt;/ul>
+$$ a_{1,1} = \sum_{i=1}^{n} w_{1,i}x_{0,i}$$&lt;p>
+It&amp;rsquo;s simply a dot product of the weights and the inputs.&lt;/p>
+&lt;h2 id="forward-propagation">Forward Propagation
+&lt;/h2>$$
+\begin{align}
+\vec{a_1} &amp;= \vec{W_1} \cdot \vec{x_0} \\
+\vec{x_1} &amp;= f(\vec{a_1}) \\
+\vec{a_2} &amp;= \vec{W_2} \cdot \vec{x_1} \\
+\vec{x_2} &amp;= f(\vec{a_2}) = f(\vec{W_2} \cdot \vec{x_1}) \\
+\vec{y} &amp;= f(\vec{W_3} \cdot \vec{x_2}) \\
+\end{align}
+$$&lt;p>
+where $f$ is the activation function.
+The chaining of perceptrons is constructed by this chainning effect (chain rule).&lt;/p>
+&lt;p>At the end, you would manually calculate the error and adjust the weights and biases so that the result best matches the ground truth.&lt;/p>
+&lt;h2 id="backpropagation">Backpropagation
+&lt;/h2>&lt;p>The key idea of neural network is to minimize a loss function through backpropagation.&lt;/p>
+&lt;h2 id="softmax">Softmax
+&lt;/h2>$$ \text{softmax}(x_i) = \frac{e^{x_i}}{\sum_{j=1}^{n} e^{x_j}}$$&lt;h2 id="define-a-neural-network-in-pytorch">Define a neural network in PyTorch
+&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">torch&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">torch.nn&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="nn">nn&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">class&lt;/span> &lt;span class="nc">MLP&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Module&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="fm">__init__&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">super&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">MLP&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="bp">self&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="fm">__init__&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">layers&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Sequential&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Linear&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">4&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ReLU&lt;/span>&lt;span class="p">(),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Linear&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">4&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ReLU&lt;/span>&lt;span class="p">(),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">nn&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Linear&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="nf">forward&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">x&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">layers&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">model&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">MLP&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Even though in the code the bias term is not presented explicitly, it is still there by default (taken into account).&lt;/p>
+&lt;h2 id="for-example">For example
+&lt;/h2>$$
+f(x) = \frac{1}{1+e^{-k \cdot x}}
+$$&lt;p>
+where $k$ determines the shape or slope of the sigmoid function.&lt;/p>
+&lt;h2 id="activation-functions">Activation Functions
+&lt;/h2>&lt;ul>
+&lt;li>
+&lt;p>Sigmoid&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Tanh&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Step&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Softplus&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>swish&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>ReLU&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>sinc&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>softsign&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Linear (identity): it takes the input and returns the input. This is basically no activation function.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Step: Squashes the input to 0 or 1. It is not used in hidden layers.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="sigmod">Sigmod
+&lt;/h3>$$ f(x) = \frac{1}{1+e^{-x}}$$$$ f'(x) = f(x)(1-f(x))$$&lt;p>When the gradient goes to zero, it becomes problematic. This is called the &lt;strong>vanishing gradient problem.&lt;/strong>&lt;br>
+This is Undesirable for hidden layers.&lt;strong>WHY?&lt;/strong>&lt;/p>
+&lt;p>Why do these gradients matter?&lt;/p>
+&lt;ul>
+&lt;li>The only thing we trying to find is the weights and biases that minimize the error.&lt;/li>
+&lt;li>weak gradient slows the learning process.&lt;/li>
+&lt;li>A zero gradient would kill a neuron.&lt;/li>
+&lt;/ul>
+$$ \frac{\partial y}{\partial x} = \frac{\partial y}{\partial z} \frac{\partial z}{\partial x}$$&lt;h3 id="tanh">Tanh
+&lt;/h3>$$ f(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}$$$$ f'(x) = 1 - f(x)^2$$&lt;p>
+Data is centered around 0. It is zero centered. It is better than the sigmoid function. Less &amp;ldquo;positive&amp;rdquo; and &amp;ldquo;negative&amp;rdquo; bias.
+Undesired for middle layers.&lt;/p>
+&lt;p>&lt;strong>ResNet:&lt;/strong> Residual Network&lt;/p>
+&lt;ul>
+&lt;li>It uses skip connections to avoid the vanishing gradient problem.&lt;/li>
+&lt;/ul>
+&lt;p>Q:&lt;/p>
+&lt;ul>
+&lt;li>Positive Bias&lt;/li>
+&lt;li>zero centered&lt;/li>
+&lt;li>why gradient matters&lt;/li>
+&lt;li>hwo does gradient contribute to the result&lt;/li>
+&lt;li>the chain rule?&lt;/li>
+&lt;li>What does the activation function do?&lt;/li>
+&lt;/ul>
+&lt;h2 id="relu">ReLu
+&lt;/h2>&lt;ul>
+&lt;li>Nowadays, you want to always start with ReLU. It is the most popular activation function.&lt;/li>
+&lt;li>But what if the input is negative? The gradient is zero. A solution is to use the leaky ReLU.&lt;/li>
+&lt;li>We are keep the negative part have a minimal slope but not zero.&lt;/li>
+&lt;li>In addition to that, instead of having the slope in the negative part to be a constant, we can make it a learnable parameter. This is called the Parametric ReLU.&lt;/li>
+&lt;/ul></description></item></channel></rss>

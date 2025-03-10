@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Robotics on ANDY尹樑</title><link>https://lyinandy0917.github.io/categories/robotics/</link><description>Recent content in Robotics on ANDY尹樑</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><atom:link href="https://lyinandy0917.github.io/categories/robotics/index.xml" rel="self" type="application/rss+xml"/><item><title>ROS</title><link>https://lyinandy0917.github.io/p/ros/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lyinandy0917.github.io/p/ros/</guid><description>&lt;img src="https://lyinandy0917.github.io/p/ros/ROS.png" alt="Featured image of post ROS" />&lt;h1 id="ros">ROS
+&lt;/h1>&lt;h2 id="intro">Intro
+&lt;/h2>&lt;p>Q: why do we need ROS?&lt;br>
+A: ROS is a framework for writing robot software. It is a collection of &lt;strong>tools, libraries, and conventions&lt;/strong> that aim to simplify the task of creating complex. Ros has provided a high efficient way to communicate between modules, algorithms and drivers.&lt;/p>
+&lt;h2 id="operating-system---linux">Operating System - Linux
+&lt;/h2>&lt;p>Q: Why linux?&lt;br>
+A: ROS has been very mature on Linux. It is the most popular operating system for robots.&lt;/p>
+&lt;ul>
+&lt;li>Operating system manages the hardware and software resources of the system.&lt;/li>
+&lt;li>It is the most fundamental software that runs on a computer.&lt;/li>
+&lt;li>Linux is the most popular operating system for robots.&lt;/li>
+&lt;li>一般我们说的linux是指他的发行版&lt;/li>
+&lt;/ul>
+&lt;h3 id="installation-of-linux">Installation of Linux
+&lt;/h3>&lt;ol>
+&lt;li>Download the Ubuntu LTS version from the official website (An iso file).&lt;/li>
+&lt;li>Download VMware Workstation Pro from the official website.&lt;/li>
+&lt;li>Open VMware Workstation Pro and create a new virtual machine.&lt;/li>
+&lt;li>Assign &amp;gt;2GB RAM and &amp;gt;20GB storage. Choose the installed ISO file.&lt;/li>
+&lt;li>Install Ubuntu on the virtual machine.&lt;/li>
+&lt;li>Follow the instructions to install Ubuntu.&lt;/li>
+&lt;li>Download the VMware tools
+&lt;ol>
+&lt;li>Open the terminal&lt;/li>
+&lt;li>&lt;code>sudo apt upgrade&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo apt install open-vm-tools-desktop -y&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo reboot&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="simple-commands">Simple Commands
+&lt;/h3>&lt;ol>
+&lt;li>&lt;code>ls&lt;/code> - list files and directories&lt;/li>
+&lt;li>&lt;code>cd&lt;/code> - change directory&lt;/li>
+&lt;li>&lt;code>pwd&lt;/code> - print working directory&lt;/li>
+&lt;li>&lt;code>mkdir&lt;/code> - make directory&lt;/li>
+&lt;li>&lt;code>rm&lt;/code> - remove file or directory&lt;/li>
+&lt;li>&lt;code>rmdir&lt;/code> - remove directory&lt;/li>
+&lt;li>To open the terminal, press &lt;code>Ctrl + Alt + T&lt;/code>&lt;/li>
+&lt;li>&amp;ndash;help - to get help on a command&lt;/li>
+&lt;li>&lt;code>mv&lt;/code> - move files or directories&lt;/li>
+&lt;li>&lt;code>cp&lt;/code> - copy files or directories&lt;/li>
+&lt;li>&lt;code>touch&lt;/code> - create a file&lt;/li>
+&lt;li>&lt;code>sudo&lt;/code> - run a command as superuser&lt;/li>
+&lt;/ol>
+&lt;h3 id="install-g-and-python">Install g++ and python
+&lt;/h3>&lt;ol>
+&lt;li>
+&lt;p>&lt;code>sudo apt-get install g++&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>To compile a C++ program, use &lt;code>g++ filename.cpp -o outputname&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Python3 is already installed on Ubuntu.&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="install-ros2">Install ROS2
+&lt;/h3>&lt;ol>
+&lt;li>Set Locale
+&lt;ol>
+&lt;li>&lt;code>sudo apt update&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo apt install locales&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo locale-gen en_US en_US.UTF-8&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8&lt;/code>&lt;/li>
+&lt;li>&lt;code>export LANG=en_US.UTF-8&lt;/code>&lt;/li>
+&lt;li>&lt;code>locale&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>Enable ROS2 repository
+&lt;ol>
+&lt;li>&lt;code>sudo apt install software-properties-common&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo add-apt-repository universe&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo apt update &amp;amp;&amp;amp; sudo apt install curl -y&lt;/code>&lt;/li>
+&lt;li>&lt;code>curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg&lt;/code>&lt;/li>
+&lt;li>&lt;code>echo &amp;quot;deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release; echo &amp;quot;$UBUNTU_CODENAME&amp;quot;) main&amp;quot; | sudo tee /etc/apt/sources.list.d/ros2.list &amp;gt; /dev/null&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>Install development tools and ROS tools
+&lt;ol>
+&lt;li>&lt;code>sudo apt update &amp;amp;&amp;amp; sudo apt install ros-dev-tools&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>Install ROS2
+&lt;ol>
+&lt;li>&lt;code>sudo apt update &amp;amp;&amp;amp; sudo apt upgrade&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo apt install ros-jazzy-desktop&lt;/code>&lt;/li>
+&lt;li>&lt;code>sudo apt install ros-jazzy-ros-base&lt;/code>&lt;br>
+&lt;strong>Common Bugs refer to&lt;/strong> &lt;a class="link" href="https://blog.csdn.net/weixin_46445090/article/details/144812129" target="_blank" rel="noopener"
+>BUG FIX&lt;/a>&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="ros2-commands">ROS2 Commands
+&lt;/h3>&lt;ol>
+&lt;li>&lt;code>ros2 run package_name executable_name&lt;/code> - run a ROS2 node&lt;/li>
+&lt;li>&lt;code>ros2 node list&lt;/code> - list all the nodes&lt;/li>
+&lt;li>&lt;code>ros2 node info /node_name&lt;/code> - get information about a node&lt;/li>
+&lt;li>&lt;code>ros2 topic list&lt;/code> - list all the topics&lt;/li>
+&lt;li>&lt;code>ros2 topic echo /topic_name&lt;/code> - echo the messages on a topic&lt;/li>
+&lt;li>&lt;code>ros2 topic pub --rate 1 /target/cmd_vel geometry_msgs/Twist '{linear: {x: 0.1}, angular: {z: 0.1}}'&lt;/code> - publish a message on a topic&lt;/li>
+&lt;li>&lt;code>ros2 bag record /target/cmd_vel&lt;/code> - record messages on a topic&lt;/li>
+&lt;li>&lt;code>ros2 bag play /target/cmd_vel&lt;/code> - play messages from a bag file This would be useful for record a behavior and replay it later for other experiments.&lt;/li>
+&lt;/ol>
+&lt;h3 id="vscode">VSCode
+&lt;/h3>&lt;ol>
+&lt;li>Install VSCode&lt;/li>
+&lt;li>Install some extensions
+&lt;ol>
+&lt;li>C/C++&lt;/li>
+&lt;li>Python&lt;/li>
+&lt;li>ROS&lt;/li>
+&lt;li>Jupyter&lt;/li>
+&lt;li>Cmake&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="gazebo">Gazebo
+&lt;/h3>&lt;ol>
+&lt;li>Gazebo is a 3D simulator that allows you to test your robot in a virtual environment.&lt;/li>
+&lt;li>&lt;code>sudo apt-get install ros-${ROS_DISTRO}-ros-gz&lt;/code>
+Refer to &lt;a class="link" href="https://gazebosim.org/docs/latest/ros_installation/" target="_blank" rel="noopener"
+>Gazebo Installation for corresponding ROS&lt;/a>&lt;/li>
+&lt;/ol></description></item></channel></rss>

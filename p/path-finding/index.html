@@ -1,0 +1,337 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="An introduction to path finding algorithms."><title>Path Finding</title>
+<link rel=canonical href=https://lyinandy0917.github.io/p/path-finding/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="Path Finding"><meta property='og:description' content="An introduction to path finding algorithms."><meta property='og:url' content='https://lyinandy0917.github.io/p/path-finding/'><meta property='og:site_name' content='ANDY尹樑'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta name=twitter:title content="Path Finding"><meta name=twitter:description content="An introduction to path finding algorithms."><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_e02202f6717fc524.png width=300 height=309 class=site-logo loading=lazy alt=Avatar></a></figure><div class=site-meta><h1 class=site-name><a href=/>ANDY尹樑</a></h1><h2 class=site-description>积硅步，行千里</h2></div></header><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>Links</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#a-algorithm>A* Algorithm</a><ol><li><a href=#an-example>An Example</a></li><li><a href=#code-example>Code Example</a></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><div class=article-title-wrapper><h2 class=article-title><a href=/p/path-finding/>Path Finding</a></h2><h3 class=article-subtitle>An introduction to path finding algorithms.</h3></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>7 minute read</time></div></footer></div></header><section class=article-content><h1 id=path-finding>Path Finding</h1><h2 id=a-algorithm>A* Algorithm</h2><ul><li>A star is a heuristic search algorithm that finds the shortest path between the start node and the end node.</li><li><strong>What is a heuristic?</strong> A heuristic is like a rule of thumb. It could be a guess, an estimate, or a rule that helps you find a solution.</li></ul><h3 id=an-example>An Example</h3><ul><li>Let&rsquo;s say you are a mouse in a maze. The heuristic would be how strong the smell of cheese is. The stronger the smell, the closer you are to the cheese. The heuristic is the smell of the cheese.</li><li>So that the P would be determined by the distance and the smell of the cheese. The distance is the cost of the path, and the smell of the cheese is the heuristic.</li><li>So each node would have a heuristic value and between the node are the cost of the path.</li><li>The A* algorithm would find the path with the minimum cost.</li></ul><h3 id=code-example>Code Example</h3><p>First we need to define some helper functions to calculate the heuristic and the cost of the path.</p><ol><li>We would start by defining the node class.<br><strong>What is a node in A star algorithm?</strong> A node is a point in the grid. It has a position, a parent, and a cost.</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>Node</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>pose</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>pose</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>array</span><span class=p>(</span><span class=n>pose</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>x</span> <span class=o>=</span> <span class=n>pose</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>y</span> <span class=o>=</span> <span class=n>pose</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>g_value</span> <span class=o>=</span> <span class=mi>0</span> <span class=c1># cost from start node to current node</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>h_value</span> <span class=o>=</span> <span class=mi>0</span> <span class=c1># heuristic value</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>f_value</span> <span class=o>=</span> <span class=mi>0</span> <span class=c1># f = g + h </span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>parent</span> <span class=o>=</span> <span class=kc>None</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__lt__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>other</span><span class=p>):</span> <span class=c1># use to compare two nodes: less than</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>f_value</span> <span class=o>&lt;</span> <span class=n>other</span><span class=o>.</span><span class=n>f_value</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__eq__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>other</span><span class=p>):</span> <span class=c1># use to compare two nodes: equal</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>pose</span> <span class=o>==</span> <span class=n>other</span><span class=o>.</span><span class=n>pose</span><span class=p>)</span><span class=o>.</span><span class=n>all</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><ol start=2><li>Now we could start to craft the A* class.</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>AStar</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>map_path</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>map_path</span> <span class=o>=</span> <span class=n>map_path</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>map</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>load_map</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>map_path</span><span class=p>)</span><span class=o>.</span><span class=n>astype</span><span class=p>(</span><span class=nb>int</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nb>print</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>map</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>resolution</span> <span class=o>=</span> <span class=mf>0.05</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>y_dim</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>map</span><span class=o>.</span><span class=n>shape</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>x_dim</span> <span class=o>=</span><span class=bp>self</span><span class=o>.</span><span class=n>map</span><span class=o>.</span><span class=n>shape</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>        <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s1>&#39;map size (</span><span class=si>{</span><span class=bp>self</span><span class=o>.</span><span class=n>x_dim</span><span class=si>}</span><span class=s1>, </span><span class=si>{</span><span class=bp>self</span><span class=o>.</span><span class=n>y_dim</span><span class=si>}</span><span class=s1>)&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>load_map</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>path</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>np</span><span class=o>.</span><span class=n>load</span><span class=p>(</span><span class=n>path</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>reset_map</span><span class=p>(</span><span class=bp>self</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>map</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>load_map</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>map_path</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>The <code>load_map</code> function is used to load the map from the file. The <code>reset_map</code> function is used to reset the map to the original state. why do we need to reset the map? Because we need to find the path multiple times, and we need to reset the map to the original state every time we find a new path.</p><ol start=3><li>Now we would define the important parts of the euclidean distance and the cost of the path.</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>AStar</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;&#39;&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>    &#39;&#39;&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>euclidean_distance</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>start</span><span class=p>,</span> <span class=n>end</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>np</span><span class=o>.</span><span class=n>linalg</span><span class=o>.</span><span class=n>norm</span><span class=p>(</span><span class=n>start</span><span class=o>.</span><span class=n>pose</span> <span class=o>-</span> <span class=n>end</span><span class=o>.</span><span class=n>pose</span><span class=p>)</span> <span class=c1># this is euclidean distance therefore it&#39;s the straight line distance</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>get_successor</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>node</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>        :param node: A Node data structure
+</span></span></span><span class=line><span class=cl><span class=s2>        :return: a list of Nodes containing successors of current Node
+</span></span></span><span class=line><span class=cl><span class=s2>        &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=n>successor_list</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>        <span class=n>x</span><span class=p>,</span><span class=n>y</span> <span class=o>=</span> <span class=n>node</span><span class=o>.</span><span class=n>pose</span>  <span class=c1># Get x, y coordinates of the current node</span>
+</span></span><span class=line><span class=cl>        <span class=n>pose_list</span> <span class=o>=</span> <span class=p>[[</span><span class=n>x</span><span class=o>+</span><span class=mi>1</span><span class=p>,</span> <span class=n>y</span><span class=o>+</span><span class=mi>1</span><span class=p>],</span> <span class=p>[</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=o>+</span><span class=mi>1</span><span class=p>],</span> <span class=p>[</span><span class=n>x</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=n>y</span><span class=o>+</span><span class=mi>1</span><span class=p>],</span> <span class=p>[</span><span class=n>x</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=n>y</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>                        <span class=p>[</span><span class=n>x</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=n>y</span><span class=o>-</span><span class=mi>1</span><span class=p>],</span> <span class=p>[</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=o>-</span><span class=mi>1</span><span class=p>],</span> <span class=p>[</span><span class=n>x</span><span class=o>+</span><span class=mi>1</span><span class=p>,</span> <span class=n>y</span><span class=o>-</span><span class=mi>1</span><span class=p>],</span> <span class=p>[</span><span class=n>x</span><span class=o>+</span><span class=mi>1</span><span class=p>,</span> <span class=n>y</span><span class=p>]]</span>  <span class=c1># Pose list contains 8 neighbors of the current node</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=n>pose_</span> <span class=ow>in</span> <span class=n>pose_list</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>x_</span><span class=p>,</span> <span class=n>y_</span> <span class=o>=</span> <span class=n>pose_</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=mi>0</span> <span class=o>&lt;=</span> <span class=n>x_</span> <span class=o>&lt;</span> <span class=bp>self</span><span class=o>.</span><span class=n>y_dim</span> <span class=ow>and</span> <span class=mi>0</span> <span class=o>&lt;=</span> <span class=n>y_</span> <span class=o>&lt;</span> <span class=bp>self</span><span class=o>.</span><span class=n>x_dim</span> <span class=ow>and</span> <span class=bp>self</span><span class=o>.</span><span class=n>map</span><span class=p>[</span><span class=n>x_</span><span class=p>,</span> <span class=n>y_</span><span class=p>]</span> <span class=o>==</span> <span class=mi>0</span><span class=p>:</span> <span class=c1># Eliminate nodes that are out of bound, and nodes that are obstacles if the value is 0 then it&#39;s not an obstacle</span>
+</span></span><span class=line><span class=cl>                <span class=bp>self</span><span class=o>.</span><span class=n>map</span><span class=p>[</span><span class=n>x_</span><span class=p>,</span> <span class=n>y_</span><span class=p>]</span> <span class=o>=</span> <span class=o>-</span><span class=mi>1</span>
+</span></span><span class=line><span class=cl>                <span class=n>successor_list</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>Node</span><span class=p>(</span><span class=n>pose_</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>successor_list</span>
+</span></span></code></pre></td></tr></table></div></div><ol start=4><li>Now we would define the calculate the path function.
+Before that, there are two useful functions: <code>heappush</code> and <code>heappop</code>.<ul><li><code>heappush</code> is used to push the node into the heap.</li><li><code>heappop</code> is used to pop the node with the lowest f value from the heap.</li><li>The heap is a data structure that allows you to push and pop the node with the lowest f value in O(1) time.</li><li></li></ul></li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>AStar</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;&#39;&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>    &#39;&#39;&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>calculate_path</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>node</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>        :param node: A Node data structure
+</span></span></span><span class=line><span class=cl><span class=s2>        :return: a list with shape (n, 2) containing n path point
+</span></span></span><span class=line><span class=cl><span class=s2>        &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=n>path_ind</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>        <span class=n>path_ind</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>node</span><span class=o>.</span><span class=n>pose</span><span class=o>.</span><span class=n>tolist</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>        <span class=n>current</span> <span class=o>=</span> <span class=n>node</span>
+</span></span><span class=line><span class=cl>        <span class=k>while</span> <span class=n>current</span><span class=o>.</span><span class=n>parent</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=n>current</span> <span class=o>=</span> <span class=n>current</span><span class=o>.</span><span class=n>parent</span>
+</span></span><span class=line><span class=cl>            <span class=n>path_ind</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>current</span><span class=o>.</span><span class=n>pose</span><span class=o>.</span><span class=n>tolist</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>        <span class=n>path_ind</span><span class=o>.</span><span class=n>reverse</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=nb>print</span><span class=p>(</span><span class=sa>f</span><span class=s1>&#39;path length </span><span class=si>{</span><span class=nb>len</span><span class=p>(</span><span class=n>path_ind</span><span class=p>)</span><span class=si>}</span><span class=s1>&#39;</span><span class=p>)</span> <span class=c1># the number of nodes in the path</span>
+</span></span><span class=line><span class=cl>        <span class=n>path</span> <span class=o>=</span> <span class=nb>list</span><span class=p>(</span><span class=n>path_ind</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>path</span>
+</span></span></code></pre></td></tr></table></div></div><p>It would return the path in the form of a list of nodes.</p><ol><li>We would define the plan function.</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span><span class=lnt>88
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>AStar</span><span class=p>(</span><span class=nb>object</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=s1>&#39;&#39;&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>    &#39;&#39;&#39;</span>
+</span></span><span class=line><span class=cl>   <span class=k>def</span> <span class=nf>plan</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>start_ind</span><span class=p>,</span> <span class=n>goal_ind</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>        TODO:
+</span></span></span><span class=line><span class=cl><span class=s2>        Fill in the missing lines in the plan function
+</span></span></span><span class=line><span class=cl><span class=s2>        @param start_ind : [x, y] represents coordinates in webots world
+</span></span></span><span class=line><span class=cl><span class=s2>        @param goal_ind : [x, y] represents coordinates in webots world
+</span></span></span><span class=line><span class=cl><span class=s2>        @return path : a list with shape (n, 2) containing n path point
+</span></span></span><span class=line><span class=cl><span class=s2>        &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>       
+</span></span><span class=line><span class=cl>        <span class=c1># initialize start node and goal node class</span>
+</span></span><span class=line><span class=cl>        <span class=n>start_node</span> <span class=o>=</span> <span class=n>Node</span><span class=p>(</span><span class=n>start_ind</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>goal_node</span> <span class=o>=</span> <span class=n>Node</span><span class=p>(</span><span class=n>goal_ind</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>        TODO:
+</span></span></span><span class=line><span class=cl><span class=s2>        calculate h and f value of start_node
+</span></span></span><span class=line><span class=cl><span class=s2>        (1) h can be computed by calling the heuristic method
+</span></span></span><span class=line><span class=cl><span class=s2>        (2) f = g + h
+</span></span></span><span class=line><span class=cl><span class=s2>        &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>        <span class=c1># Calculate initial h and f values for start_node</span>
+</span></span><span class=line><span class=cl>        <span class=n>start_node</span><span class=o>.</span><span class=n>h_value</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>heuristic</span><span class=p>(</span><span class=n>start_node</span><span class=p>,</span> <span class=n>goal_node</span><span class=p>)</span> <span class=c1># from start to goal</span>
+</span></span><span class=line><span class=cl>        <span class=n>start_node</span><span class=o>.</span><span class=n>f_value</span> <span class=o>=</span> <span class=n>start_node</span><span class=o>.</span><span class=n>g_value</span> <span class=o>+</span> <span class=n>start_node</span><span class=o>.</span><span class=n>h_value</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1># Reset map and initialize open and closed lists</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>reset_map</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=n>open_list</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>        <span class=n>closed_list</span> <span class=o>=</span> <span class=p>[]</span>
+</span></span><span class=line><span class=cl>        <span class=n>heappush</span><span class=p>(</span><span class=n>open_list</span><span class=p>,</span> <span class=n>start_node</span><span class=p>)</span> <span class=c1>#why do we need to push the start node into the open list? Because we need to start from the start node. but isn&#39;t open list for unvisited nodes? Yes, but we need to start from the start node.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1># Reset map</span>
+</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>reset_map</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1># Initially, only the start node is known.</span>
+</span></span><span class=line><span class=cl>        <span class=c1># This is usually implemented as a min-heap or priority queue rather than a hash-set.</span>
+</span></span><span class=line><span class=cl>        <span class=c1># Please refer to https://docs.python.org/3/library/heapq.html for more details about heap data structure</span>
+</span></span><span class=line><span class=cl>        <span class=n>open_list</span> <span class=o>=</span> <span class=p>[]</span> <span class=c1># open list is a list of nodes that are not yet visited</span>
+</span></span><span class=line><span class=cl>        <span class=n>closed_list</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>array</span><span class=p>([])</span>
+</span></span><span class=line><span class=cl>        <span class=n>heappush</span><span class=p>(</span><span class=n>open_list</span><span class=p>,</span> <span class=n>start_node</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1># while open_list is not empty</span>
+</span></span><span class=line><span class=cl>        <span class=k>while</span> <span class=nb>len</span><span class=p>(</span><span class=n>open_list</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>            
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>            TODO:
+</span></span></span><span class=line><span class=cl><span class=s2>            get the current node and add it to the closed list
+</span></span></span><span class=line><span class=cl><span class=s2>            &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>            <span class=c1># Current is the node in open_list that has the lowest f value</span>
+</span></span><span class=line><span class=cl>            <span class=c1># This operation can occur in O(1) time if open_list is a min-heap or a priority queue</span>
+</span></span><span class=line><span class=cl>            
+</span></span><span class=line><span class=cl>            <span class=c1># Get the node with the lowest f value from open_list</span>
+</span></span><span class=line><span class=cl>            <span class=n>current</span> <span class=o>=</span> <span class=n>heappop</span><span class=p>(</span><span class=n>open_list</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>closed_list</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>append</span><span class=p>(</span><span class=n>closed_list</span><span class=p>,</span> <span class=n>current</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=bp>self</span><span class=o>.</span><span class=n>map</span><span class=p>[</span><span class=n>current</span><span class=o>.</span><span class=n>x</span><span class=p>,</span> <span class=n>current</span><span class=o>.</span><span class=n>y</span><span class=p>]</span> <span class=o>=</span> <span class=o>-</span><span class=mi>1</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1># if current is goal_node: calculate the path by passing through the current node</span>
+</span></span><span class=line><span class=cl>            <span class=c1># exit the loop by returning the path</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=n>current</span> <span class=o>==</span> <span class=n>goal_node</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>                <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;reach goal&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=k>return</span> <span class=bp>self</span><span class=o>.</span><span class=n>calculate_path</span><span class=p>(</span><span class=n>current</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            
+</span></span><span class=line><span class=cl>            <span class=k>for</span> <span class=n>successor</span> <span class=ow>in</span> <span class=bp>self</span><span class=o>.</span><span class=n>get_successor</span><span class=p>(</span><span class=n>current</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>                <span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>                TODO:
+</span></span></span><span class=line><span class=cl><span class=s2>                1. pass current node as parent of successor node
+</span></span></span><span class=line><span class=cl><span class=s2>                2. calculate g, h, and f value of successor node
+</span></span></span><span class=line><span class=cl><span class=s2>                    (1) d(current, successor) is the weight of the edge from current to successor
+</span></span></span><span class=line><span class=cl><span class=s2>                    (2) g(successor) = g(current) + d(current, successor)
+</span></span></span><span class=line><span class=cl><span class=s2>                    (3) h(successor) can be computed by calling the heuristic method
+</span></span></span><span class=line><span class=cl><span class=s2>                    (4) f(successor) = g(successor) + h(successor)
+</span></span></span><span class=line><span class=cl><span class=s2>                &#34;&#34;&#34;</span>
+</span></span><span class=line><span class=cl>                <span class=c1># Set current node as the parent of the successor</span>
+</span></span><span class=line><span class=cl>                <span class=n>successor</span><span class=o>.</span><span class=n>parent</span> <span class=o>=</span> <span class=n>current</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                <span class=c1># Calculate g, h, and f values for the successor</span>
+</span></span><span class=line><span class=cl>                <span class=n>distance</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>linalg</span><span class=o>.</span><span class=n>norm</span><span class=p>(</span><span class=n>successor</span><span class=o>.</span><span class=n>pose</span> <span class=o>-</span> <span class=n>current</span><span class=o>.</span><span class=n>pose</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=n>successor</span><span class=o>.</span><span class=n>g_value</span> <span class=o>=</span> <span class=n>current</span><span class=o>.</span><span class=n>g_value</span> <span class=o>+</span> <span class=n>distance</span>
+</span></span><span class=line><span class=cl>                <span class=n>successor</span><span class=o>.</span><span class=n>h_value</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>heuristic</span><span class=p>(</span><span class=n>successor</span><span class=p>,</span> <span class=n>goal_node</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=n>successor</span><span class=o>.</span><span class=n>f_value</span> <span class=o>=</span> <span class=n>successor</span><span class=o>.</span><span class=n>g_value</span> <span class=o>+</span> <span class=n>successor</span><span class=o>.</span><span class=n>h_value</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                <span class=n>heappush</span><span class=p>(</span><span class=n>open_list</span><span class=p>,</span> <span class=n>successor</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=c1># If the loop is exited without return any path</span>
+</span></span><span class=line><span class=cl>        <span class=c1># Path is not found</span>
+</span></span><span class=line><span class=cl>        <span class=nb>print</span><span class=p>(</span><span class=s1>&#39;path not found&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=kc>None</span>
+</span></span></code></pre></td></tr></table></div></div></section><footer class=article-footer><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{const e=document.querySelector(".main-article");renderMathInElement(e,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],ignoredClasses:["gist"]})})</script></article><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugo-theme-stack.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 ANDY尹樑</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
